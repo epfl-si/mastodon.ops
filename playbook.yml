@@ -6,6 +6,6 @@
 
 - name: "Setup Mastodon"
   hosts: all
-  gather_facts: yes
+  gather_facts: no
   roles:
     - role: roles/mastodon
