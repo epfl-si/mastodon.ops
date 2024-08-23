@@ -1,0 +1,28 @@
+- name: Initialization script for PostgreSQL
+  ansible.builtin.template:
+    src: init-db-mastodon.sql.j2
+    dest: /srv/mastodon/init-db-mastodon.sql
+
+- name: PostgreSQL directories
+  ansible.builtin.file:
+    state: directory
+    recurse: yes
+    path: "{{ item }}"
+  with_items:
+    - "{{ mastodon_postgresql_dir }}/data"
+    - "{{ mastodon_postgresql_dir }}/initdb"
+
+- name: PostgreSQL container
+  community.docker.docker_container:
+    name: mastodon-postgresql
+    image: postgres:14-alpine
+    restart: true
+    shm_size: 256MB
+    network_mode: "{{ mastodon_docker_internal_network_name }}"
+    volumes:
+      - "{{ mastodon_postgresql_dir }}/data:/var/lib/postgresql/data"
+      - "{{ mastodon_postgresql_dir }}/initdb:/docker-entrypoint-initdb.d"
+    healthcheck:
+      test: ['CMD', 'pg_isready', '-U', 'postgres']
+    env:
+      POSTGRES_HOST_AUTH_METHOD: trust

@@ -1,0 +1,3 @@
+mastodon_docker_internal_network_name: mastodon-internal
+
+mastodon_postgresql_dir: /srv/mastodon/postgres14
