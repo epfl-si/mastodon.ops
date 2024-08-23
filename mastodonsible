@@ -31,7 +31,12 @@ fatal () {
     exit 1
 }
 
-platform_check () {
+
+ansible_suitcase_dir () {
+    echo $PWD/ansible-deps-cache
+}
+
+ensure_suitcase () {
     if ! test -f ansible-deps-cache/.versions 2>/dev/null; then
       curl https://raw.githubusercontent.com/epfl-si/ansible.suitcase/master/install.sh | \
             SUITCASE_ANSIBLE_VERSION=10.3.0 \
@@ -40,9 +45,9 @@ platform_check () {
             SUITCASE_NO_EYAML=1 \
             bash -x
     fi
-    export PATH="$PWD/ansible-deps-cache/bin:$PATH"
-    export ANSIBLE_ROLES_PATH="$PWD/ansible-deps-cache/roles"
-    export ANSIBLE_COLLECTIONS_PATHS="$PWD/ansible-deps-cache"
+
+    . "$(ansible_suitcase_dir)"/lib.sh
+    ensure_ansible_runtime
 }
 
 inventory_mode="test"
@@ -80,7 +85,7 @@ esac
 
 set -e
 
-platform_check
+ensure_suitcase
 case "$mode" in
     ansible-playbook)
         ansible-playbook $playbook_flags  $(inventories) "${ansible_args[@]}" \
