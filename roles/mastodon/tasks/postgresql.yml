@@ -15,7 +15,7 @@
 - name: PostgreSQL container
   community.docker.docker_container:
     name: mastodon-postgresql
-    image: postgres:14-alpine
+    image: "{{ mastodon_postgresql_image }}"
     restart: true
     shm_size: 256MB
     network_mode: "{{ mastodon_docker_internal_network_name }}"

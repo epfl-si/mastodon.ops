@@ -1,5 +1,8 @@
 - tags: always
-  include_vars: mastodon-vars.yml
+  include_vars: "{{ item }}"
+  with_items:
+  - versions.yml
+  - mastodon-vars.yml
 
 - name: Create folder for Mastodon
   ansible.builtin.file:
