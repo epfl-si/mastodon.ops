@@ -36,6 +36,7 @@
   tags:
     - mastodon
     - mastodon.pg
+    - mastodon.pg.purge
 
 - name: docker-compose.yml for Mastodon's non-precious containers
   ansible.builtin.template:

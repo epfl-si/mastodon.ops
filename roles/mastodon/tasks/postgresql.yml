@@ -3,6 +3,22 @@
     src: init-db-mastodon.sql.j2
     dest: /srv/mastodon/init-db-mastodon.sql
 
+- name: Stop PostgreSQL container
+  tags:
+  - never
+  - mastodon.pg.purge
+  community.docker.docker_container:
+    name: mastodon-postgresql
+    state: absent
+
+- name: Purge PostgreSQL state
+  tags:
+  - never
+  - mastodon.pg.purge
+  ansible.builtin.file:
+    state: absent
+    path: "{{ mastodon_postgresql_dir }}/data"
+
 - name: PostgreSQL directories
   ansible.builtin.file:
     state: directory
