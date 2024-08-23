@@ -4,6 +4,35 @@
   roles:
     - role: roles/setup
 
+- name: "Setup Traefik"
+  hosts: all
+  gather_facts: no
+  tags:
+    - traefik
+  roles:
+    - epfl_si.traefik.traefik
+  vars_files:
+    - versions.yml   # For traefik_docker_image
+  vars:
+    traefik_root_location: /srv/traefik
+    traefik_docker_networks:
+      - name: mastodon_external_network
+  tasks:
+  - epfl_si.traefik.dynamic_config:
+      name: mastodon
+      content: |
+        http:
+          services:
+            mastodon:
+              loadBalancer:
+                servers:
+                - url: http://web:3000
+          routers:
+            mastodon:
+              rule: Host(`{{ inventory_hostname }}`)
+              service: mastodon
+              tls: true
+
 - name: "Setup Mastodon"
   hosts: all
   gather_facts: no
