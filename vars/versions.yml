@@ -1,1 +1,2 @@
 mastodon_postgresql_image: postgres:14-alpine
+mastodon_web_image: ghcr.io/mastodon/mastodon:v4.2.11
