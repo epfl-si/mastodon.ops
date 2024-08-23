@@ -107,3 +107,12 @@
   tags:
     - setup
     - setup.docker
+
+- name: Set the message of the day with service info
+  become: true
+  ansible.builtin.template:
+    src: motd.j2
+    dest: /etc/motd
+  tags:
+    - setup
+    - setup.motd
