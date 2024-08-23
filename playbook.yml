@@ -4,3 +4,8 @@
   roles:
     - role: roles/setup
 
+- name: "Setup Mastodon"
+  hosts: all
+  gather_facts: yes
+  roles:
+    - role: roles/mastodon
