@@ -1,0 +1,15 @@
+# Give access to ISAS-FSD members
+- name: Allow some of ISAS-FSD members SSH access
+  become: true
+  ansible.posix.authorized_key:
+    user: root
+    state: present
+    key: "https://github.com/{{ item }}.keys"
+  with_items:
+    - domq
+    - dwesh163
+    - lvenries
+    - ponsfrilus
+  tags:
+    - setup
+    - setup.ssh

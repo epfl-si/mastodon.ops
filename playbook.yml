@@ -1,0 +1,6 @@
+- name: "Setup the VM"
+  hosts: all
+  gather_facts: no
+  roles:
+    - role: roles/setup
+
