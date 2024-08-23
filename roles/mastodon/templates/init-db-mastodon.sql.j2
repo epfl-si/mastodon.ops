@@ -1,0 +1,5 @@
+-- Initialization scripts
+-- See https://hub.docker.com/_/postgres
+
+CREATE USER mastodon WITH PASSWORD 'secret' CREATEDB;
+CREATE DATABASE mastodon OWNER mastodon;

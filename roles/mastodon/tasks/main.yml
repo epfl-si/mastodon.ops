@@ -30,6 +30,14 @@
     - mastodon
     - mastodon.setup
 
+- name: Create the initialization script for postgres
+  ansible.builtin.template:
+    src: init-db-mastodon.sql.j2
+    dest: /srv/mastodon/init-db-mastodon.sql
+  tags: 
+    - mastodon
+    - mastodon.setup
+
 - name: Deploy Mastodon with docker-compose
   community.docker.docker_compose_v2:
     project_src: /srv/mastodon/
