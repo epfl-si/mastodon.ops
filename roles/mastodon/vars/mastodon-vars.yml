@@ -7,3 +7,4 @@ mastodon_postgresql_database: mastodon
 mastodon_postgresql_user: mastodon
 mastodon_postgresql_port: 5432
 
+_secrets: "{{ lookup('pipe', 'keybase fs read /keybase/team/epfl_mastodon/mastodon-secrets_' + inventory_mode + '.yml') | from_yaml }}"
