@@ -8,7 +8,7 @@
   - never
   - mastodon.pg.purge
   community.docker.docker_container:
-    name: mastodon-postgresql
+    name: "{{ mastodon_postgresql_container_name }}"
     state: absent
 
 - name: Purge PostgreSQL state
@@ -30,7 +30,7 @@
 
 - name: PostgreSQL container
   community.docker.docker_container:
-    name: mastodon-postgresql
+    name: "{{ mastodon_postgresql_container_name }}"
     image: "{{ mastodon_postgresql_image }}"
     restart: true
     shm_size: 256MB
