@@ -6,6 +6,14 @@
     - mastodon
     - mastodon.setup
 
+- name: "Admins' Makefile for Mastodon"
+  ansible.builtin.template:
+    src: Makefile.j2
+    dest: "{{ mastodon_dir }}/Makefile"
+  tags: 
+    - mastodon
+    - mastodon.setup
+
 - name: Dockerfile for Mastodon
   ansible.builtin.template:
     src: Dockerfile-mastodon.j2

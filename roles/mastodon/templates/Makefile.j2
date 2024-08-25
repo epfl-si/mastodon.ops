@@ -1,0 +1,30 @@
+# atom: tabType=hard, tabLength=4, grammar=makefile
+# vim: set syntax=make ts=4 noexpandtab :
+
+# This Makefile is build with Ansible and operates as a convenient script for 
+# the servers administrators (<isas-fsd@groupes.epfl.ch>).
+# Please propose a PR on <https://github.com/epfl-si/mastodon.ops> to change it.
+
+.PHONY: exec
+exec:
+	docker exec -it {{ mastodon_web_container_name }} bash
+
+.PHONY: exec-root
+exec-root:
+	docker exec --user root -it {{ mastodon_web_container_name }} bash
+
+.PHONY: logs
+logs:
+	docker ps --format='{% raw %}{{.Names}}{% endraw %}' | xargs -P0 -d '\n' -n1 sh -c 'docker logs -f "$$1" | sed "s/^/$1: /"' _
+
+.PHONY: stop
+stop:
+	docker stop $$(docker ps -q)
+	
+.PHONY: prune
+prune:
+	docker system prune --volumes
+	
+.PHONY: watch
+watch:
+	watch --color docker ps
