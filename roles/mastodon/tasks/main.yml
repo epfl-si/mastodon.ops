@@ -38,3 +38,14 @@
   tags:
     - mastodon
     - mastodon.run
+
+- name: Mastodon configure
+  include_tasks:
+    file: configure.yml
+    apply:
+      tags:
+        - mastodon
+        - mastodon.configure
+  tags:
+    - mastodon
+    - mastodon.configure
