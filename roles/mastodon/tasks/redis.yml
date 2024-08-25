@@ -1,0 +1,34 @@
+- name: Stop Redis container
+  tags:
+  - never
+  - mastodon.redis.purge
+  community.docker.docker_container:
+    name: "{{ mastodon_redis_container_name }}"
+    state: absent
+
+- name: Purge Redis state
+  tags:
+  - never
+  - mastodon.redis.purge
+  ansible.builtin.file:
+    state: absent
+    path: "{{ mastodon_redis_dir }}/data"
+
+- name: Redis directories
+  ansible.builtin.file:
+    state: directory
+    recurse: yes
+    path: "{{ item }}"
+  with_items:
+    - "{{ mastodon_redis_dir }}/data"
+
+- name: Redis container
+  community.docker.docker_container:
+    name: "{{ mastodon_redis_container_name }}"
+    image: "{{ mastodon_redis_image }}"
+    restart: true
+    network_mode: "{{ mastodon_docker_internal_network_name }}"
+    volumes:
+      - "{{ mastodon_redis_dir }}/data:/data"
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']

@@ -16,6 +16,18 @@
     - mastodon.setup
     - mastodon.setup.docker-network
 
+- name: Mastodon database (Redis)
+  include_tasks:
+    file: redis.yml
+    apply:
+      tags:
+        - mastodon
+        - mastodon.redis
+  tags:
+    - mastodon
+    - mastodon.redis
+    - mastodon.redis.purge
+
 - name: Mastodon database (PostgreSQL)
   include_tasks:
     file: postgresql.yml

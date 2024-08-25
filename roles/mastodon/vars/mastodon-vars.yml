@@ -1,8 +1,17 @@
+# General
 mastodon_dir: /srv/mastodon
 
 mastodon_docker_internal_network_name: mastodon-internal
 mastodon_docker_external_network_name: mastodon-external
 
+_secrets: "{{ lookup('pipe', 'keybase fs read /keybase/team/epfl_mastodon/mastodon-secrets_' + inventory_mode + '.yml') | from_yaml }}"
+
+# Redis
+mastodon_redis_dir: "{{ mastodon_dir }}/redis"
+mastodon_redis_image: redis:7-alpine
+mastodon_redis_container_name: mastodon-redis
+
+# PostgreSQL
 mastodon_postgresql_dir: "{{ mastodon_dir }}/postgres14"
 mastodon_postgresql_container_name: mastodon-postgresql
 
@@ -10,5 +19,3 @@ mastodon_postgresql_database: mastodon
 mastodon_postgresql_user: mastodon
 mastodon_postgresql_port: 5432
 mastodon_postgresql_password: NotNeededBecauseWeUseTrust  #https://www.postgresql.org/docs/current/auth-trust.html
-
-_secrets: "{{ lookup('pipe', 'keybase fs read /keybase/team/epfl_mastodon/mastodon-secrets_' + inventory_mode + '.yml') | from_yaml }}"
