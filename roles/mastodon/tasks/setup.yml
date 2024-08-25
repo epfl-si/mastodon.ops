@@ -22,14 +22,6 @@
     - mastodon.setup
     - mastodon.setup.docker-network
 
-- name: External Docker network
-  community.docker.docker_network:
-     name: "{{ mastodon_docker_external_network_name }}"
-  tags:
-    - mastodon
-    - mastodon.setup
-    - mastodon.setup.docker-network
-
 - name: docker-compose.yml for Mastodon's non-precious containers
   ansible.builtin.template:
     src: docker-compose-mastodon.yml.j2

@@ -4,6 +4,20 @@
   roles:
     - role: roles/setup
 
+- name: "External Docker network"
+  hosts: all
+  gather_facts: no
+  tags:
+    - traefik
+    - mastodon
+    - mastodon.setup
+    - mastodon.setup.docker-network
+  vars_files:
+    - roles/mastodon/vars/mastodon-vars.yml
+  tasks:
+    - community.docker.docker_network:
+        name: "{{ mastodon_docker_external_network_name }}"
+
 - name: "Setup Traefik"
   hosts: all
   gather_facts: no
@@ -13,25 +27,26 @@
     - epfl_si.traefik.traefik
   vars_files:
     - versions.yml   # For traefik_docker_image
+    - roles/mastodon/vars/mastodon-vars.yml   # For mastodon_docker_external_network_name
   vars:
     traefik_root_location: /srv/traefik
     traefik_docker_networks:
-      - name: mastodon_external_network
+      - name: "{{ mastodon_docker_external_network_name }}"
   tasks:
-  - epfl_si.traefik.dynamic_config:
-      name: mastodon
-      content: |
-        http:
-          services:
-            mastodon:
-              loadBalancer:
-                servers:
-                - url: http://web:3000
-          routers:
-            mastodon:
-              rule: Host(`{{ inventory_hostname }}`)
-              service: mastodon
-              tls: true
+    - epfl_si.traefik.dynamic_config:
+        name: mastodon
+        content: |
+          http:
+            services:
+              mastodon:
+                loadBalancer:
+                  servers:
+                  - url: http://web:3000
+            routers:
+              mastodon:
+                rule: Host(`{{ inventory_hostname }}`)
+                service: mastodon
+                tls: true
 
 - name: "Setup Mastodon"
   hosts: all
