@@ -1,7 +1,9 @@
+mastodon_dir: /srv/mastodon
+
 mastodon_docker_internal_network_name: mastodon-internal
 mastodon_docker_external_network_name: mastodon-external
 
-mastodon_postgresql_dir: /srv/mastodon/postgres14
+mastodon_postgresql_dir: "{{ mastodon_dir }}/postgres14"
 mastodon_postgresql_container_name: mastodon-postgresql
 
 mastodon_postgresql_database: mastodon

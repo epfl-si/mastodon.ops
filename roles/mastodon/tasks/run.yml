@@ -1,6 +1,6 @@
 - name: Deploy Mastodon with docker-compose
   community.docker.docker_compose_v2:
-    project_src: /srv/mastodon/
+    project_src: "{{ mastodon_dir }}"
   register: output
   tags: 
     - mastodon
