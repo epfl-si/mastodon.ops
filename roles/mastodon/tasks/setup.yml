@@ -1,0 +1,47 @@
+- name: Create folder for Mastodon
+  ansible.builtin.file:
+    path: /srv/mastodon
+    state: directory
+  tags: 
+    - mastodon
+    - mastodon.setup
+
+- name: Dockerfile for Mastodon
+  ansible.builtin.template:
+    src: Dockerfile-mastodon.j2
+    dest: /srv/mastodon/Dockerfile
+  tags: 
+    - mastodon
+    - mastodon.setup
+
+- name: Internal Docker network
+  community.docker.docker_network:
+     name: "{{ mastodon_docker_internal_network_name }}"
+  tags:
+    - mastodon
+    - mastodon.setup
+    - mastodon.setup.docker-network
+
+- name: External Docker network
+  community.docker.docker_network:
+     name: "{{ mastodon_docker_external_network_name }}"
+  tags:
+    - mastodon
+    - mastodon.setup
+    - mastodon.setup.docker-network
+
+- name: docker-compose.yml for Mastodon's non-precious containers
+  ansible.builtin.template:
+    src: docker-compose-mastodon.yml.j2
+    dest: /srv/mastodon/docker-compose.yml
+  tags: 
+    - mastodon
+    - mastodon.setup
+
+- name: .env for Mastodon
+  ansible.builtin.template:
+    src: mastodon.env.j2
+    dest: /srv/mastodon/.env
+  tags: 
+    - mastodon
+    - mastodon.setup

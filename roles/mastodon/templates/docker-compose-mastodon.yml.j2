@@ -115,6 +115,8 @@ services:
 
 networks:
   external_network:
+    name: "{{ mastodon_docker_external_network_name }}"
+    external: true
   internal_network:
     name: "{{ mastodon_docker_internal_network_name }}"
     external: true  # Confusing, I know
