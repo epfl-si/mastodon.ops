@@ -1,8 +1,3 @@
-- name: Initialization script for PostgreSQL
-  ansible.builtin.template:
-    src: init-db-mastodon.sql.j2
-    dest: /srv/mastodon/init-db-mastodon.sql
-
 - name: Stop PostgreSQL container
   tags:
   - never
@@ -27,6 +22,11 @@
   with_items:
     - "{{ mastodon_postgresql_dir }}/data"
     - "{{ mastodon_postgresql_dir }}/initdb"
+
+- name: Initialization script for PostgreSQL
+  ansible.builtin.template:
+    src: init-db-mastodon.sql.j2
+    dest: "{{ mastodon_postgresql_dir }}/initdb/init-db-mastodon.sql"
 
 - name: PostgreSQL container
   community.docker.docker_container:
