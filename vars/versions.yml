@@ -1,4 +1,4 @@
 traefik_docker_image: "traefik:v3.1"
 
 mastodon_postgresql_image: postgres:14-alpine
-mastodon_web_image: ghcr.io/mastodon/mastodon:v4.2.11
+mastodon_web_image: ghcr.io/mastodon/mastodon:v4.2.12
