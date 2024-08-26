@@ -40,17 +40,6 @@
     - mastodon.pg
     - mastodon.pg.purge
 
-- name: Mastodon run
-  include_tasks:
-    file: run.yml
-    apply:
-      tags:
-        - mastodon
-        - mastodon.run
-  tags:
-    - mastodon
-    - mastodon.run
-
 - name: Mastodon configure
   include_tasks:
     file: configure.yml
@@ -61,3 +50,17 @@
   tags:
     - mastodon
     - mastodon.configure
+
+- name: Mastodon frontend (Web)
+  include_tasks:
+    file: web.yml
+    apply:
+      tags:
+        - mastodon
+        - mastodon.web
+  tags:
+    - mastodon
+    - mastodon.web
+    - mastodon.web.run
+    - mastodon.streaming.run
+    - mastodon.sidekiq.run

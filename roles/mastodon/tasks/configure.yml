@@ -5,7 +5,7 @@
 #     --rm \
 #     --env-file /srv/mastodon/.env \
 #     --network mastodon-internal \
-#     ghcr.io/mastodon/mastodon:v4.2.11 \
+#     ghcr.io/mastodon/mastodon:v4.2.12 \
 #         bundle exec rake db:migrate
 # Note: docker_container_exec doesn't seems to achieve what we need...
 - name: "Migrate the database"
@@ -29,7 +29,7 @@
 #     --rm \
 #     --env-file /srv/mastodon/.env \
 #     --network mastodon-internal \
-#     ghcr.io/mastodon/mastodon:v4.2.11 \
+#     ghcr.io/mastodon/mastodon:v4.2.12 \
 #          bundle exec rake db:seed
 - name: "Seed the database"
   ansible.builtin.shell:

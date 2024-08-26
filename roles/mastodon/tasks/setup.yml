@@ -14,14 +14,6 @@
     - mastodon
     - mastodon.setup
 
-- name: Dockerfile for Mastodon
-  ansible.builtin.template:
-    src: Dockerfile-mastodon.j2
-    dest: "{{ mastodon_dir }}/Dockerfile"
-  tags: 
-    - mastodon
-    - mastodon.setup
-
 - name: Internal Docker network
   community.docker.docker_network:
      name: "{{ mastodon_docker_internal_network_name }}"
@@ -29,14 +21,6 @@
     - mastodon
     - mastodon.setup
     - mastodon.setup.docker-network
-
-- name: docker-compose.yml for Mastodon's non-precious containers
-  ansible.builtin.template:
-    src: docker-compose-mastodon.yml.j2
-    dest: "{{ mastodon_dir }}/docker-compose.yml"
-  tags: 
-    - mastodon
-    - mastodon.setup
 
 - name: .env for Mastodon
   ansible.builtin.template:

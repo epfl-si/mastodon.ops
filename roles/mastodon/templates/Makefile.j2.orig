@@ -7,21 +7,23 @@
 
 .PHONY: exec
 exec:
-	docker exec -it mastodon-web-1
+	docker exec -it {{ mastodon_web_container_name }}
 
 .PHONY: exec-root
 exec-root:
-	docker exec --user root -it mastodon-web-1 bash
+	docker exec --user root -it {{ mastodon_web_container_name }} bash
 
 .PHONY: logs
 logs:
-	docker ps --format='{{.Names}}' | xargs -P0 -d '\n' -n1 sh -c 'docker logs -f "$1" | sed "s/^/$1: /"' _
+	docker ps --format='{% raw %}{{.Names}}{% endraw %}' | xargs -P0 -d '\n' -n1 sh -c 'docker logs -f "$1" | sed "s/^/$1: /"' _
 
-<<<<<<< HEAD
-=======
 .PHONY: stop
 stop:
+<<<<<<< HEAD
 	docker stop $$(docker ps -q)
+=======
+	docker stop $(docker ps -q)
+>>>>>>> 46ee9ce ([feature] Mastodon's web containers)
 	
 .PHONY: prune
 prune:
@@ -30,4 +32,3 @@ prune:
 .PHONY: watch
 watch:
 	watch --color docker ps
->>>>>>> 9a2df72 (fix up admin makefile)
