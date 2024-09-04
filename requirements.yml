@@ -1,3 +1,4 @@
 collections:
 - name: community.docker
 - name: epfl_si.traefik
+  version: ">=0.5.0"
