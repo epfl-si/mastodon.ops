@@ -32,6 +32,7 @@
     traefik_root_location: /srv/traefik
     traefik_docker_networks:
       - name: "{{ mastodon_docker_external_network_name }}"
+    traefik_use_acme_prod_ca: true
   tasks:
     - epfl_si.traefik.dynamic_config:
         name: mastodon
@@ -46,7 +47,8 @@
               mastodon:
                 rule: Host(`{{ inventory_hostname }}`)
                 service: mastodon
-                tls: true
+                tls:
+                  certResolver: letsencrypt
 
 - name: "Setup Mastodon"
   hosts: all
