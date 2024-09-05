@@ -1,48 +1,17 @@
 # This is permayellow and have to be improved (aka WIP)
 
-# Migrate the database
-# docker run \
-#     --rm \
-#     --env-file /srv/mastodon/.env \
-#     --network mastodon-internal \
-#     ghcr.io/mastodon/mastodon:v4.2.12 \
-#         bundle exec rake db:migrate
-# Note: docker_container_exec doesn't seems to achieve what we need...
-- name: "Migrate the database"
-  ansible.builtin.shell:
-    cmd: |
-      docker run \
-          --rm \
-          --env-file /srv/mastodon/.env \
-          --network mastodon-internal \
-          {{ mastodon_web_image }} \
-              bundle exec rake db:migrate
-    chdir: "{{ mastodon_dir }}"
-  register: __db_migrate_result
-
-- name: "Migrate the database stdout"
-  ansible.builtin.debug:
-    var: __db_migrate_result.stdout
-
-# Seed the database
-# docker run \
-#     --rm \
-#     --env-file /srv/mastodon/.env \
-#     --network mastodon-internal \
-#     ghcr.io/mastodon/mastodon:v4.2.12 \
-#          bundle exec rake db:seed
-- name: "Seed the database"
-  ansible.builtin.shell:
-    cmd: |
-      docker run \
-          --rm \
-          --env-file /srv/mastodon/.env \
-          --network mastodon-internal \
-          {{ mastodon_web_image }} \
-              bundle exec rake db:seed
-    chdir: "{{ mastodon_dir }}"
-  register: __db_seed_result
-
-- name: "Seed the database stdout"
-  ansible.builtin.debug:
-    var: __db_seed_result.stdout
+- name: "Migrate and seed the database"
+  docker_container:
+    name: migrate-and-seed
+    image: "{{ mastodon_web_image }}"
+    detach: false
+    command:
+    - bundle
+    - exec
+    - rake
+    - "{{ item }}"
+    env: "{{ mastodon_env }}"
+    network_mode: "{{ mastodon_docker_internal_network_name }}"
+  with_items:
+    - db:migrate
+    - db:seed

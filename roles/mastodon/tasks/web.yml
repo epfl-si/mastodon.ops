@@ -18,7 +18,7 @@
       - name: "{{ mastodon_docker_internal_network_name }}"
     volumes:
       - "{{ mastodon_web_dir }}/public/system:/mastodon/public/system"
-    env_file: "{{ mastodon_dir }}/.env"
+    env: "{{ mastodon_env }}"
     healthcheck:
       test: ['CMD-SHELL', 'wget -q --spider --proxy=off localhost:3000/health || exit 1']
     command: 'bundle exec puma -C config/puma.rb'
@@ -35,7 +35,7 @@
     networks:
       - name: "{{ mastodon_docker_external_network_name }}"
       - name: "{{ mastodon_docker_internal_network_name }}"
-    env_file: "{{ mastodon_dir }}/.env"
+    env: "{{ mastodon_env }}"
     healthcheck:
       test: ['CMD-SHELL', 'wget -q --spider --proxy=off localhost:4000/api/v1/streaming/health || exit 1']
     command: 'node ./streaming'
@@ -52,7 +52,7 @@
       - name: "{{ mastodon_docker_internal_network_name }}"
     volumes:
       - "{{ mastodon_web_dir }}/public/system:/mastodon/public/system"
-    env_file: "{{ mastodon_dir }}/.env"
+    env: "{{ mastodon_env }}"
     healthcheck:
       test: ['CMD-SHELL', "ps aux | grep '[s]idekiq\ 6' || false"]
     command: 'bundle exec sidekiq'
