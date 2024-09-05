@@ -1,14 +1,16 @@
 - name: Stop PostgreSQL container
+  when: >-
+    "mastodon.pg.purge" in ansible_run_tags
   tags:
-  - never
   - mastodon.pg.purge
   community.docker.docker_container:
     name: "{{ mastodon_postgresql_container_name }}"
     state: absent
 
 - name: Purge PostgreSQL state
+  when: >-
+    "mastodon.pg.purge" in ansible_run_tags
   tags:
-  - never
   - mastodon.pg.purge
   ansible.builtin.file:
     state: absent

@@ -1,14 +1,16 @@
 - name: Stop Redis container
+  when: >-
+    "mastodon.redis.purge" in ansible_run_tags
   tags:
-  - never
   - mastodon.redis.purge
   community.docker.docker_container:
     name: "{{ mastodon_redis_container_name }}"
     state: absent
 
 - name: Purge Redis state
+  when: >-
+    "mastodon.redis.purge" in ansible_run_tags
   tags:
-  - never
   - mastodon.redis.purge
   ansible.builtin.file:
     state: absent
