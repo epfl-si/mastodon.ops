@@ -10,7 +10,6 @@
   community.docker.docker_container:
     name: "{{ mastodon_web_container_name }}"
     image: "{{ mastodon_web_image }}"
-    restart: true
     ports:
       - "3000:3000"
     networks:
@@ -29,7 +28,6 @@
   community.docker.docker_container:
     name: "{{ mastodon_streaming_container_name }}"
     image: "{{ mastodon_web_image }}"
-    restart: true
     ports:
       - "4000:4000"
     networks:
@@ -46,7 +44,6 @@
   community.docker.docker_container:
     name: "{{ mastodon_sidekiq_container_name }}"
     image: "{{ mastodon_web_image }}"
-    restart: true
     networks:
       - name: "{{ mastodon_docker_external_network_name }}"
       - name: "{{ mastodon_docker_internal_network_name }}"

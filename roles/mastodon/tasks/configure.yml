@@ -15,3 +15,6 @@
   with_items:
     - db:migrate
     - db:seed
+  register: _rake_container
+  changed_when: >-
+    _rake_container.container.Output != ""

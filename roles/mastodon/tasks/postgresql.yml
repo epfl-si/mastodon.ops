@@ -34,7 +34,6 @@
   community.docker.docker_container:
     name: "{{ mastodon_postgresql_container_name }}"
     image: "{{ mastodon_postgresql_image }}"
-    restart: true
     shm_size: 256MB
     network_mode: "{{ mastodon_docker_internal_network_name }}"
     volumes:
