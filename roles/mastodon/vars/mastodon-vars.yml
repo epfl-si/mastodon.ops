@@ -39,8 +39,8 @@ mastodon_env:
   # PostgreSQL
   # ----------
   DB_HOST: "{{ mastodon_postgresql_container_name }}"
-  DB_USER: "{{ mastodon_postgresql_database }}"
-  DB_NAME: "{{ mastodon_postgresql_user }}"
+  DB_NAME: "{{ mastodon_postgresql_database }}"
+  DB_USER: "{{ mastodon_postgresql_user }}"
   DB_PASS: "{{ mastodon_postgresql_password }}"
   DB_PORT: "{{ mastodon_postgresql_port | default('5432') }}"
 
