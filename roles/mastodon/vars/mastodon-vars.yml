@@ -46,12 +46,12 @@ mastodon_env:
 
   # Elasticsearch (optional)
   # ------------------------
-  ES_ENABLED: "true"
-  ES_HOST: localhost
-  ES_PORT: "9200"
-  # Authentication for ES (optional)
-  ES_USER: elastic
-  ES_PASS: password
+  # ES_ENABLED: "true"
+  # ES_HOST: localhost
+  # ES_PORT: "9200"
+  # # Authentication for ES (optional)
+  # ES_USER: elastic
+  # ES_PASS: password
 
   # Secrets
   # -------
@@ -81,11 +81,11 @@ mastodon_env:
 
   # File storage (optional)
   # -----------------------
-  S3_ENABLED: "true"
-  S3_BUCKET: "files.example.com"
-  AWS_ACCESS_KEY_ID: ""
-  AWS_SECRET_ACCESS_KEY: ""
-  S3_ALIAS_HOST: "files.example.com"
+  # S3_ENABLED: "true"
+  # S3_BUCKET: "files.example.com"
+  # AWS_ACCESS_KEY_ID: ""
+  # AWS_SECRET_ACCESS_KEY: ""
+  # S3_ALIAS_HOST: "files.example.com"
 
   # IP and session retention
   # -----------------------
