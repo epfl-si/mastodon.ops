@@ -94,3 +94,31 @@ mastodon_env:
   # -----------------------
   IP_RETENTION_PERIOD: "31556952"
   SESSION_RETENTION_PERIOD: "31556952"
+
+
+  # OIDC
+  # -----------------------
+  #   https://stackoverflow.com/questions/72081776/how-mastodon-configured-login-using-sso
+  #   https://github.com/mastodon/mastodon/discussions/19813
+  #   https://github.com/mastodon/mastodon/pull/16221
+  # -----------------------
+  # Enable OIDC
+  OIDC_ENABLED: "true"
+  # Name your button (ignored in current 3.5.3 but fix is done in upcoming releases)
+  OIDC_DISPLAY_NAME: "Log in with Entra ID"
+  # Where to find your Keycloak OIDC server
+  OIDC_ISSUER: "{{ _secrets.oidc.issuer }}"
+  # Use discovery to determing all OIDC endpoints
+  OIDC_DISCOVERY: "true"
+  # Scope you want to obtain from OIDC server
+  OIDC_SCOPE: "openid,profile,email"
+  # Field to be used for populating user's @alias
+  OIDC_UID_FIELD: "preferred_username"
+  # Client ID of the client you configured for Mastodon in Keycloak or Entra ID
+  OIDC_CLIENT_ID: "{{ _secrets.oidc.clientID }}"
+  # Client secret of the client you configured for Mastodon in Keycloak or Entra ID
+  OIDC_CLIENT_SECRET: "{{ _secrets.oidc.clientSecret }}"
+  # Where OIDC server should come back after authentication
+  OIDC_REDIRECT_URI: "https://{{ inventory_hostname }}/auth/auth/openid_connect/callback"
+  # Assume emails are verified by the OIDC server
+  OIDC_SECURITY_ASSUME_EMAIL_IS_VERIFIED: "true"
