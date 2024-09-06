@@ -36,7 +36,7 @@
       {% for u in mastodon_users %}
       outcome="$(
             tootctl account create "{{ u.name }}" --email "{{ u.email }}" --confirmed {%
-          if u.role is defined %} --role {{ u.role }}{% endif %} 2>&1 || true)"
+          if u.role is defined %} --role {{ u.role }} --approve{% endif %} 2>&1 || true)"
       case "$outcome" in
           OK*) echo  "OK" ;;
           *taken*) echo $outcome ;;
