@@ -1,4 +1,6 @@
 # This is permayellow and have to be improved (aka WIP)
+- tags: always
+  include_vars: vars/access.yml
 
 - name: "Migrate and seed the database"
   docker_container:
@@ -18,3 +20,27 @@
   register: _rake_container
   changed_when: >-
     _rake_container.container.Output != ""
+
+- name: "Create accounts"
+  docker_container:
+    name: create-users
+    image: "{{ mastodon_web_image }}"
+    detach: false
+    env: "{{ mastodon_env }}"
+    network_mode: "{{ mastodon_docker_internal_network_name }}"
+    command:
+    - sh
+    - -c
+    - |
+      set -e -x
+      {% for u in mastodon_users %}
+      outcome="$(
+            tootctl account create "{{ u.name }}" --email "{{ u.email }}" --confirmed {%
+          if u.role is defined %} --role {{ u.role }}{% endif %} 2>&1 || true)"
+      case "$outcome" in
+          OK*) echo  "OK" ;;
+          *taken*) echo $outcome ;;
+          *) echo $outcome; exit 1 ;;
+      esac
+
+      {% endfor %}

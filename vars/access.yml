@@ -1,0 +1,9 @@
+mastodon_users:
+- name: nborboen
+  email: nicolas.borboen@epfl.ch
+  role: Owner
+- name: ponsfrilus
+  email: ponsfrilus@gmail.com
+  role: Owner
+- name: quatrava
+  email: dominique.quatravaux@epfl.ch
