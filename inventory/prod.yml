@@ -1,0 +1,5 @@
+all:
+  hosts:
+    mastodon-prod.fsd.team:
+      ansible_user: root
+      ansible_host: 86.119.31.242
