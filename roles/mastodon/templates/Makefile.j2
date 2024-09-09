@@ -19,8 +19,16 @@ logs:
 
 .PHONY: stop
 stop:
+	docker stop $$(docker ps | grep 'mastodon-' | cut -d " " -f1)
+
+.PHONY: rm
+rm:
+	docker rm -f $$(docker ps -a | grep 'mastodon-' | cut -d " " -f1)
+
+.PHONY: stop-all
+stop-all:
 	docker stop $$(docker ps -q)
-	
+
 .PHONY: prune
 prune:
 	docker system prune --volumes
@@ -28,3 +36,7 @@ prune:
 .PHONY: watch
 watch:
 	watch --color docker ps
+
+.PHONY: clean
+clean: stop rm
+	rm -rf /srv/mastodon
