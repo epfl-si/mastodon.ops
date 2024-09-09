@@ -113,7 +113,7 @@ mastodon_env:
   # Scope you want to obtain from OIDC server
   OIDC_SCOPE: "openid,profile,email"
   # Field to be used for populating user's @alias
-  OIDC_UID_FIELD: "preferred_username"
+  OIDC_UID_FIELD: "gaspar"
   # Client ID of the client you configured for Mastodon in Keycloak or Entra ID
   OIDC_CLIENT_ID: "{{ _secrets.oidc.clientID }}"
   # Client secret of the client you configured for Mastodon in Keycloak or Entra ID
