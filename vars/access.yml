@@ -7,3 +7,7 @@ mastodon_users:
   role: Owner
 - name: quatrava
   email: dominique.quatravaux@epfl.ch
+- name: duriaux
+  email: ehouarn.duriaux@epfl.ch
+- name: cdengler
+  email: carine.dengler@epfl.ch
