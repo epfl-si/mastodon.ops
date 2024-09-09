@@ -44,3 +44,5 @@
       esac
 
       {% endfor %}
+  tags:
+    - mastodon.configure.accounts
