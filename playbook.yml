@@ -32,6 +32,7 @@
     traefik_root_location: /srv/traefik
     traefik_docker_networks:
       - name: "{{ mastodon_docker_external_network_name }}"
+      - name: "{{ mastodon_docker_internal_network_name }}" # Metrics
     traefik_use_acme_prod_ca: true
   tasks:
     - epfl_si.traefik.dynamic_config:
@@ -55,3 +56,9 @@
   gather_facts: no
   roles:
     - role: roles/mastodon
+
+- name: "Setup monitoring"
+  hosts: all
+  gather_facts: no
+  roles:
+    - role: roles/monitoring

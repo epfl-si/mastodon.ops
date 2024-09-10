@@ -1,0 +1,27 @@
+- tags: always
+  include_vars: "{{ item }}"
+  with_items:
+  - monitoring.yml
+  - roles/mastodon/vars/mastodon-vars.yml
+
+- name: Prometheus
+  include_tasks:
+    file: prometheus.yml
+    apply:
+      tags:
+        - monitoring
+        - prometheus
+  tags:
+    - monitoring
+    - prometheus
+
+- name: Node Exporter
+  include_tasks:
+    file: node_exporter.yml
+    apply:
+      tags:
+        - monitoring
+        - node_exporter
+  tags:
+    - monitoring
+    - node_exporter
