@@ -1,0 +1,24 @@
+- tags: always
+  include_vars: vars/access.yml
+
+- name: "Check the custom CSS"
+  community.docker.docker_container_exec:
+    container: "{{ mastodon_postgresql_container_name }}"
+    user: postgres
+    command: psql -qAt -d mastodon -c "select id from settings where var='custom_css'";
+  register: _check_custom_css
+  changed_when: >-
+    _check_custom_css.stdout == ""
+  tags:
+    - mastodon.customize.css
+
+- name: "Check the custom CSS"
+  community.docker.docker_container_exec:
+    container: "{{ mastodon_postgresql_container_name }}"
+    user: postgres
+    command: >-
+      psql -qAt -d mastodon -c "insert into settings (var,value) values ('custom_css', '--- \".button-openid_connect {\r\n  background: red !important;\r\n}\"');"
+  register: _insert_custom_css
+  when: _check_custom_css.stdout == ""
+  tags:
+    - mastodon.customize.css

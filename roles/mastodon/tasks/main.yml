@@ -65,3 +65,15 @@
     - mastodon
     - mastodon.configure
     - mastodon.configure.accounts
+
+- name: Mastodon customize
+  include_tasks:
+    file: customize.yml
+    apply:
+      tags:
+        - mastodon
+        - mastodon.customize
+  tags:
+    - mastodon
+    - mastodon.customize
+    - mastodon.customize.css
