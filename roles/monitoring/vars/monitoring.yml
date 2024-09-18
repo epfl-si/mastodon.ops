@@ -5,3 +5,6 @@ prometheus_container_name: prometheus
 
 nodeexporter_image: quay.io/prometheus/node-exporter:latest
 nodeexporter_container_name: node-exporter
+
+alertmanager_image: quay.io/prometheus/alertmanager:latest #prom/alertmanager:latest
+alertmanager_container_name: alertmanager

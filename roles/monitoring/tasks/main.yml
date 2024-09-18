@@ -25,3 +25,14 @@
   tags:
     - monitoring
     - node_exporter
+
+- name: Alertmanager
+  include_tasks:
+    file: alertmanager.yml
+    apply:
+      tags:
+        - monitoring
+        - alertmanager
+  tags:
+    - monitoring
+    - alertmanager

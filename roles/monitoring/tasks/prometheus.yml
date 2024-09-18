@@ -2,16 +2,27 @@
   ansible.builtin.file:
     state: directory
     recurse: yes
-    path: "{{ prometheus_dir }}/data"
+    path: "{{ prometheus_dir }}/{{ item }}"
     owner: 65534
     group: 65534
     mode: '0755'
+  with_items:
+    - data
+    - rules
 
 - name: Prometheus configuration
   ansible.builtin.template:
     src: prometheus.yml
     dest: "{{ prometheus_dir }}/prometheus.yml"
   register: _prom_config_change
+
+- name: Copy prometheus rules
+  template: 
+    src: "{{ item }}"
+    dest: "{{ prometheus_dir }}/rules/{{ item | basename }}"
+  with_fileglob:
+    - "templates/alerts/*.yml"
+  register: _prom_rules
 
 - name: Prometheus container
   community.docker.docker_container:
@@ -20,9 +31,15 @@
     networks:
       - name: "{{ mastodon_docker_internal_network_name }}"
     volumes:
-      - "{{ prometheus_dir }}/data:/prometheus"
       - "{{ prometheus_dir }}/prometheus.yml:/etc/prometheus/prometheus.yml"
-    exposed_ports:
-      - 9090
+      - "{{ prometheus_dir }}/data:/prometheus"
+      - "{{ prometheus_dir }}/rules:/rules"
+    ports:
+      - 9090:9090
     restart_policy: 'unless-stopped'
-    restart: "{{ _prom_config_change.changed }}"
+    restart: >-
+      {{
+        _prom_config_change.changed 
+        or
+        (_prom_rules | default({})) is changed
+      }}

@@ -1,0 +1,13 @@
+{%raw%}
+groups:
+  - name: Alert all the time
+    rules:
+    - alert: Just another alert
+      expr: vector(1)
+      for: 1m
+      labels:
+        owner: nborboen
+      annotations:
+        summary: 'Test please ignore'
+        description: 'This is an alert that fires all the time.'
+{%endraw%}

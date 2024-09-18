@@ -1,0 +1,21 @@
+- name: Alertmanager configuration
+  ansible.builtin.template:
+    src: alertmanager.yml
+    dest: "{{ prometheus_dir }}/alertmanager.yml"
+  register: _alertmanager_config_change
+
+- name: Alertmanager container
+  community.docker.docker_container:
+    name: "{{ alertmanager_container_name }}"
+    image: "{{ alertmanager_image }}"
+    command: >-
+      --config.file=/config/config.yml
+      --log.level=debug
+    networks:
+      - name: "{{ mastodon_docker_internal_network_name }}"
+    volumes:
+      - "{{ prometheus_dir }}/alertmanager.yml:/config/config.yml"
+    ports:
+      - 9093:9093
+    restart_policy: 'unless-stopped'
+    restart: "{{ _alertmanager_config_change.changed }}"
