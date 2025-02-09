@@ -3,6 +3,7 @@
     state: directory
     recurse: yes
     path: "{{ item }}"
+    mode: 0777
   with_items:
     - "{{ mastodon_web_dir }}/public/system"
 
