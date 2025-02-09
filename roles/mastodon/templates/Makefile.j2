@@ -13,6 +13,16 @@ exec:
 exec-root:
 	docker exec --user root -it {{ mastodon_web_container_name }} bash
 
+.PHONY: postgres
+postgres:
+	docker exec --user postgres -it {{ mastodon_postgresql_container_name }} psql
+
+.PHONY: pgdump
+pgdump:
+	docker exec {{ mastodon_postgresql_container_name }} pg_dump -U postgres -F t mastodon | gzip > {{ mastodon_postgresql_dir }}/data/BACKUPS/$$(date +%Y-%m-%d)_mastodon.tar.gz
+	tar -tvf {{ mastodon_postgresql_dir }}/data/BACKUPS/$$(date +%Y-%m-%d)_mastodon.tar.gz
+	ls -alh {{ mastodon_postgresql_dir }}/data/BACKUPS/
+
 .PHONY: logs
 logs:
 	docker ps --format='{% raw %}{{.Names}}{% endraw %}' | xargs -P0 -d '\n' -n1 sh -c 'docker logs -f "$$1" | sed "s/^/$1: /"' _
