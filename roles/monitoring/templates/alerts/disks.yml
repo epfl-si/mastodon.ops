@@ -1,0 +1,13 @@
+{%raw%}
+groups:
+  - name: Backup date > 7 days
+    rules:
+    - alert: Disk > x%
+      expr: (100 - ((node_filesystem_avail_bytes{mountpoint="/",fstype!="rootfs"} * 100) / node_filesystem_size_bytes{mountpoint="/",fstype!="rootfs"})) >= 23.5
+      for: 15m
+      labels:
+        owner: nborboen
+      annotations:
+        summary: '{{ $labels.url }} have not been backuped since more than 3 days!'
+        description: '{{ $labels.url }} of job {{ $labels.job }} has restic_success == {{ $value }}seconds (on env: {{$labels.wp_env}}).'
+{%endraw%}

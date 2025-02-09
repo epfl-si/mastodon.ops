@@ -1,0 +1,10 @@
+
+prometheus_dir: /srv/prometheus
+prometheus_image: prom/prometheus:v2.54.1
+prometheus_container_name: prometheus
+
+nodeexporter_image: quay.io/prometheus/node-exporter:latest
+nodeexporter_container_name: node-exporter
+
+alertmanager_image: quay.io/prometheus/alertmanager:latest #prom/alertmanager:latest
+alertmanager_container_name: alertmanager

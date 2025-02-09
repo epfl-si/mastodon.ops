@@ -1,0 +1,13 @@
+- name: Node Exporter container
+  community.docker.docker_container:
+    name: "{{ nodeexporter_container_name }}"
+    image: "{{ nodeexporter_image }}"
+    pid_mode: host
+    volumes:
+      - "/:/host:ro,rslave"
+    command: --path.rootfs=/host
+    exposed_ports:
+      - 9100
+    networks:
+      - name: "{{ mastodon_docker_internal_network_name }}"
+    restart_policy: 'unless-stopped'
