@@ -101,12 +101,13 @@ mastodon_env:
   IP_RETENTION_PERIOD: "31556952"
   SESSION_RETENTION_PERIOD: "31556952"
 
-
   # OIDC
   # -----------------------
   #   https://stackoverflow.com/questions/72081776/how-mastodon-configured-login-using-sso
   #   https://github.com/mastodon/mastodon/discussions/19813
   #   https://github.com/mastodon/mastodon/pull/16221
+  #   https://login.microsoftonline.com/4ecc9983-b85e-4c9c-9e96-21fb1084fec1/v2.0/.well-known/openid-configuration
+  #   https://login.microsoftonline.com/f6c2556a-c4fb-4ab1-a2c7-9e220df11c43/v2.0/.well-known/openid-configuration
   # -----------------------
   # Enable OIDC
   OIDC_ENABLED: "true"
