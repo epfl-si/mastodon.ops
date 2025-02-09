@@ -16,16 +16,17 @@
     - setup
     - setup.ssh
 
-# Install Docker
 - name: Install required packages
   become: true
   ansible.builtin.apt:
     pkg:
       - apt-transport-https
       - ca-certificates
+      - catimg
       - curl
       - gnupg
       - software-properties-common
+      - tree
   tags:
     - setup
     - setup.docker
