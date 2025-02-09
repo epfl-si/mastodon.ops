@@ -44,6 +44,12 @@ mastodon_env:
   DB_PASS: "{{ mastodon_postgresql_password }}"
   DB_PORT: "{{ mastodon_postgresql_port | default('5432') }}"
 
+  # Active record encryption
+  # ........................
+  ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY: "{{ _secrets.primary_key }}"
+  ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY: "{{ _secrets.deterministic_key }}"
+  ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT: "{{ _secrets.key_derivation_salt }}"
+
   # Elasticsearch (optional)
   # ------------------------
   # ES_ENABLED: "true"
