@@ -49,6 +49,12 @@
                 service: mastodon
                 tls:
                   certResolver: letsencrypt
+                middlewares: {{ "[ 'test-auth' ]" if (enable_basic_auth is defined and enable_basic_auth) else '[]' }}
+            middlewares:
+              test-auth:
+                basicAuth:
+                  users:
+                  - "{{ _secrets.epfl_account_basic_auth }}"
 
 - name: "Setup Mastodon"
   hosts: all

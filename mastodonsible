@@ -31,7 +31,6 @@ fatal () {
     exit 1
 }
 
-
 ansible_suitcase_dir () {
     echo $PWD/ansible-deps-cache
 }
@@ -60,6 +59,11 @@ inventories () {
     esac
 }
 
+basic_auth="disabled"
+enable_basic_auth () {
+    [ "$basic_auth" == "enabled" ] && echo "-e enable_basic_auth=true"
+}
+
 ###########################################################################
 
 mode=ansible-playbook
@@ -68,6 +72,9 @@ while [ "$#" -gt 0 ]; do
     case "$1" in
         --prod)
             inventory_mode="prod"
+            shift ;;
+        --protect)
+            basic_auth="enabled"
             shift ;;
         -m) mode=ansible
             ansible_args+=("-m")
@@ -83,7 +90,7 @@ set -e
 ensure_suitcase
 case "$mode" in
     ansible-playbook)
-        ansible-playbook $playbook_flags  $(inventories) "${ansible_args[@]}" \
+        ansible-playbook $playbook_flags $(inventories) $(enable_basic_auth) "${ansible_args[@]}" \
                          $ansible_flags \
                          playbook.yml
         ;;
