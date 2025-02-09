@@ -28,6 +28,7 @@
   community.docker.docker_container:
     name: "{{ mastodon_redis_container_name }}"
     image: "{{ mastodon_redis_image }}"
+    restart_policy: unless-stopped
     network_mode: "{{ mastodon_docker_internal_network_name }}"
     volumes:
       - "{{ mastodon_redis_dir }}/data:/data"

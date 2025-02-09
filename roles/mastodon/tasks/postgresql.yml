@@ -36,6 +36,7 @@
     image: "{{ mastodon_postgresql_image }}"
     state: healthy
     shm_size: 256MB
+    restart_policy: unless-stopped
     network_mode: "{{ mastodon_docker_internal_network_name }}"
     volumes:
       - "{{ mastodon_postgresql_dir }}/data:/var/lib/postgresql/data"
