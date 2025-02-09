@@ -2,51 +2,74 @@
 # vim: set syntax=make ts=4 noexpandtab :
 
 # This Makefile is build with Ansible and operates as a convenient script for 
-# the servers administrators (<isas-fsd@groupes.epfl.ch>).
+# the servers administrators of Mastodon@EPFL (<isas-fsd@groupes.epfl.ch>).
 # Please propose a PR on <https://github.com/epfl-si/mastodon.ops> to change it.
 
+.PHONY: help
+help: ## Display this help.
+	@echo
+	@echo "This is the Mastodon@EPFL's Makefile."
+	@echo "https://github.com/epfl-si/mastodon.ops/blob/main/roles/mastodon/templates/Makefile.j2"
+# The '##@' marker creates sections in the help  message, and '##' at the end
+# of the name of a rule (after its dependencies, if any) documents it.
+	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_0-9-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
+
+##@ Developer Support
 .PHONY: exec
-exec:
+exec:	## Enter {{ mastodon_web_container_name }} container
 	docker exec -it {{ mastodon_web_container_name }} bash
 
 .PHONY: exec-root
-exec-root:
+exec-root:	## Enter {{ mastodon_web_container_name }} container as root
 	docker exec --user root -it {{ mastodon_web_container_name }} bash
 
+.PHONY: watch
+watch:	## Watch docker ps{%raw%}
+	watch --color 'docker ps --format "table {{.ID}}\t{{.Names}}\t{{.Status}}\t{{.CreatedAt}}\t{{.Image}}\t{{.Ports}}"'
+{%endraw%}
+
+.PHONY: logs
+logs:	## Display docker logs
+	docker ps --format='{% raw %}{{.Names}}{% endraw %}' | xargs -P0 -d '\n' -n1 sh -c 'docker logs -f "$$1" | sed "s/^/$1: /"' _
+
+##@ PostgreSQL Support
 .PHONY: postgres
-postgres:
+postgres:	## Enter {{ mastodon_postgresql_container_name }} container as postgres
 	docker exec --user postgres -it {{ mastodon_postgresql_container_name }} psql
 
 .PHONY: pgdump
-pgdump:
-	docker exec {{ mastodon_postgresql_container_name }} pg_dump -U postgres -F t mastodon | gzip > {{ mastodon_postgresql_dir }}/data/BACKUPS/$$(date +%Y-%m-%d)_mastodon.tar.gz
+pgdump:	## Run pg_dump for mastodon database ({{ mastodon_postgresql_dir }}/data/BACKUPS/)
+	docker exec {{ mastodon_postgresql_container_name }} pg_dump -Fc -U postgres mastodon > {{ mastodon_postgresql_dir }}/data/BACKUPS/$$(date +%Y-%m-%d)_mastodon.dump
+	docker exec {{ mastodon_postgresql_container_name }} pg_dump -Fc t -U postgres mastodon | gzip > {{ mastodon_postgresql_dir }}/data/BACKUPS/$$(date +%Y-%m-%d)_mastodon.tar.gz
 	tar -tvf {{ mastodon_postgresql_dir }}/data/BACKUPS/$$(date +%Y-%m-%d)_mastodon.tar.gz
 	ls -alh {{ mastodon_postgresql_dir }}/data/BACKUPS/
 
-.PHONY: logs
-logs:
-	docker ps --format='{% raw %}{{.Names}}{% endraw %}' | xargs -P0 -d '\n' -n1 sh -c 'docker logs -f "$$1" | sed "s/^/$1: /"' _
+.PHONY: pgdumpall
+pgdumpall:	## Run pg_dumpall to {{ mastodon_postgresql_dir }}/data/BACKUPS/
+	docker exec {{ mastodon_postgresql_container_name }} pg_dumpall -c -U postgres > {{ mastodon_postgresql_dir }}/data/BACKUPS/$$(date +%Y-%m-%d)_pgdumpall.dump
+	ls -alh {{ mastodon_postgresql_dir }}/data/BACKUPS/
 
+##@ Danger zone
 .PHONY: stop
-stop:
+stop:	## Stop all containers with mastodon in their names
 	docker stop $$(docker ps | grep 'mastodon-' | cut -d " " -f1)
 
+.PHONY: stop-all
+stop-all:	## Stop all containers!
+	docker stop $$(docker ps -q)
+	
 .PHONY: rm
-rm:
+rm:	## Remove all containers with mastodon in their names
 	docker rm -f $$(docker ps -a | grep 'mastodon-' | cut -d " " -f1)
 
-.PHONY: stop-all
-stop-all:
-	docker stop $$(docker ps -q)
+.PHONY: truncate
+truncate:	## Truncate docker's logs
+	truncate -s 0 /var/lib/docker/containers/**/*-json.log
 
 .PHONY: prune
-prune:
+prune:	## Prune with volumes
 	docker system prune --volumes
-	
-.PHONY: watch
-watch:
-	watch --color docker ps
 
 .PHONY: clean
 clean: stop rm
-	rm -rf /srv/mastodon
+	rm -rif /srv/mastodon
