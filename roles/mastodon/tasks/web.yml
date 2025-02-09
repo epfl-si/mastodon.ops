@@ -29,7 +29,7 @@
 - name: Mastodon streaming container
   community.docker.docker_container:
     name: "{{ mastodon_streaming_container_name }}"
-    image: "{{ mastodon_web_image }}"
+    image: "{{ mastodon_web_streaming_image }}"
     ports:
       - "4000:4000"
     restart_policy: unless-stopped

@@ -3,3 +3,9 @@ traefik_docker_image: "traefik:v3.1"
 mastodon_postgresql_image: postgres:14-alpine
 #mastodon_web_image: ghcr.io/mastodon/mastodon:v4.2.12
 mastodon_web_image: ghcr.io/mastodon/mastodon:v4.3.3
+# As for Mastodon v4.3, the official Docker image has now been
+# split in two smaller images:
+# - ghcr.io/mastodon/mastodon, which does not contain the streaming server anymore
+# - ghcr.io/mastodon/mastodon-streaming, which contains only the streaming server
+# See https://github.com/mastodon/mastodon/releases/tag/v4.3.0
+mastodon_web_streaming_image: ghcr.io/mastodon/mastodon-streaming:v4.3.3
