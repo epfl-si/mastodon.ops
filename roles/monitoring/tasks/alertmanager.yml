@@ -10,7 +10,7 @@
     image: "{{ alertmanager_image }}"
     command: >-
       --config.file=/config/config.yml
-      --log.level=debug
+      --log.level={{ 'error' | default('error') }}
     networks:
       - name: "{{ mastodon_docker_internal_network_name }}"
     volumes:
