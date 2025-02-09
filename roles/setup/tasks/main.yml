@@ -80,6 +80,22 @@
     - setup
     - setup.docker
 
+- name: Ensure Docker logs are rotated
+  become: true
+  ansible.builtin.copy:
+    dest: "/etc/docker/daemon.json"
+    content: |
+      {
+        "log-driver": "json-file",
+        "log-opts": {
+          "max-size": "200m",
+          "max-file": "5"
+        }
+      }
+  tags:
+    - setup
+    - setup.docker
+
 - name: Add Docker group
   become: true
   ansible.builtin.group:
