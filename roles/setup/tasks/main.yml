@@ -27,6 +27,7 @@
       - gnupg
       - software-properties-common
       - tree
+      - unattended-upgrades
   tags:
     - setup
     - setup.docker
