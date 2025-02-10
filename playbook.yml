@@ -34,6 +34,7 @@
       - name: "{{ mastodon_docker_external_network_name }}"
       - name: "{{ mastodon_docker_internal_network_name }}" # Metrics
     traefik_use_acme_prod_ca: true
+    traefik_external_http_port: 80
   tasks:
     - epfl_si.traefik.dynamic_config:
         name: mastodon
