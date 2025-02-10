@@ -1,6 +1,9 @@
-# Mastodon Ops
+# Mastodon@EPFL (aka social.epfl.ch)
 
-This repository hold the code to deploy the Mastodon server of EPFL.
+<center><img src="media/Mastodon@EPFL.png" alt="Mastodon@EPFL logo" /><br></center>
+
+This repository hold the code to deploy EPFL's Mastodon server with Ansible.
+It can be accessed at <https://social.epfl.ch>.
 
 ## How to Use
 
