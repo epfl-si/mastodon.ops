@@ -20,7 +20,6 @@
     volumes:
       - "{{ mastodon_web_dir }}/public/system:/mastodon/public/system"
     env: "{{ mastodon_env }}"
-    restart_policy: 'unless-stopped'
     healthcheck:
       test: ['CMD-SHELL',"curl -s --noproxy localhost localhost:3000/health | grep -q 'OK' || exit 1"]
     command: 'bundle exec puma -C config/puma.rb'
@@ -38,7 +37,6 @@
       - name: "{{ mastodon_docker_external_network_name }}"
       - name: "{{ mastodon_docker_internal_network_name }}"
     env: "{{ mastodon_env }}"
-    restart_policy: 'unless-stopped'
     healthcheck:
       test: ['CMD-SHELL', "curl -s --noproxy localhost localhost:4000/api/v1/streaming/health | grep -q 'OK' || exit 1"]
     command: 'node ./streaming'
@@ -56,7 +54,6 @@
     volumes:
       - "{{ mastodon_web_dir }}/public/system:/mastodon/public/system"
     env: "{{ mastodon_env }}"
-    restart_policy: 'unless-stopped'
     healthcheck:
       test: ['CMD-SHELL', "ps aux | grep '[s]idekiq\ 6' || false"]
     command: 'bundle exec sidekiq'
