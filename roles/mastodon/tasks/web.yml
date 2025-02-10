@@ -6,6 +6,21 @@
     mode: 0777
   with_items:
     - "{{ mastodon_web_dir }}/public/system"
+    - "{{ mastodon_web_build_dir | dirname }}"
+
+- name: Clone mastodon.ops to build Docker images out of it
+  git:
+    repo: https://github.com/epfl-si/mastodon.ops.git
+    dest: '{{ mastodon_web_build_dir }}'
+  register: _web_build_dir
+
+- name:
+  community.docker.docker_image:
+    name: "{{ mastodon_web_image }}"
+    source: build
+    force_source: yes
+    build:
+      path: '{{ mastodon_web_build_dir }}/docker/mastodon-web'
 
 - name: Mastodon web container
   community.docker.docker_container:
