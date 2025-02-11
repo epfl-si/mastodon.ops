@@ -14,6 +14,8 @@
     - prometheus_exporter
     - -b
     - 0.0.0.0
+    - -a
+    - monitoring/adhoc.rb
     - --verbose
   tags:
     - mastodon.monitoring
