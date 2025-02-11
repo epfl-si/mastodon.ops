@@ -54,6 +54,17 @@
     - mastodon.streaming.run
     - mastodon.sidekiq.run
 
+- name: Mastodon monitoring
+  include_tasks:
+    file: monitoring.yml
+    apply:
+      tags:
+        - mastodon
+        - mastodon.monitoring
+  tags:
+    - mastodon
+    - mastodon.monitoring
+
 - name: Mastodon configure
   include_tasks:
     file: configure.yml

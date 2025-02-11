@@ -1,0 +1,19 @@
+- name: Mastodon monitoring container
+  community.docker.docker_container:
+    name: "{{ mastodon_monitoring_container_name }}"
+    image: "{{ mastodon_web_image }}"
+    restart_policy: unless-stopped
+    networks:
+      - name: "{{ mastodon_docker_internal_network_name }}"
+    env: "{{ mastodon_env }}"
+    healthcheck:
+      test: ['CMD-SHELL',"curl -s --noproxy localhost localhost:9394/metrics"]
+    command:
+    - bundle
+    - exec
+    - prometheus_exporter
+    - -b
+    - 0.0.0.0
+    - --verbose
+  tags:
+    - mastodon.monitoring
