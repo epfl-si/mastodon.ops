@@ -44,3 +44,13 @@ scrape_configs:
       - source_labels: [__address__]
         target_label: instance
         replacement: "mastodon-{{ inventory_mode }}"
+
+  - job_name: mastodon
+    static_configs:
+    - targets:
+      - mastodon-monitoring:9394
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: "mastodon-{{ inventory_mode }}"
+        action: replace
