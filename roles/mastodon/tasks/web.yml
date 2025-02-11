@@ -6,7 +6,12 @@
     mode: 0777
   with_items:
     - "{{ mastodon_web_dir }}/public/system"
-    - "{{ mastodon_web_build_dir | dirname }}"
+
+- name: Mastodon build directory
+  ansible.builtin.file:
+    state: directory
+    path: "{{ mastodon_web_build_dir | dirname }}"
+    recurse: yes
 
 - name: Clone mastodon.ops to build Docker images out of it
   git:
