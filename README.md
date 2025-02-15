@@ -44,3 +44,6 @@ requests and offers the [Let's Encrypt] TLS certificate to users.
 [Ansible]: https://ansible.com
 [Ansible suitcase]: https://github.com/epfl-si/ansible.suitcase
 [Let's Encrypt]: https://letsencrypt.org/
+
+<a rel="me" href="https://social.epfl.ch/@epfladmin"> </a>
+<meta name="fediverse:creator" content="@epfladmin@social.epfl.ch">
