@@ -6,6 +6,14 @@
     mode: 0777
   with_items:
     - "{{ mastodon_web_dir }}/public/system"
+
+- name: Mastodon web directories
+  ansible.builtin.file:
+    state: directory
+    recurse: yes
+    path: "{{ item }}"
+    mode: 0644
+  with_items:
     - "{{ mastodon_web_build_dir }}/docker/mastodon-web"
 
 - name: Mastodon build directory
@@ -21,7 +29,7 @@
     version: main
   register: _web_build_dir
 
-- name:
+- name: Build Mastodon web image
   community.docker.docker_image:
     name: "{{ mastodon_web_image }}"
     source: build

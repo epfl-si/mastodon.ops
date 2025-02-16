@@ -1,5 +1,6 @@
 # General
 mastodon_dir: /srv/mastodon
+mastodon_backups_dir: /srv/backups
 
 mastodon_docker_internal_network_name: mastodon-internal
 mastodon_docker_external_network_name: mastodon-external

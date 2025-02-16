@@ -88,3 +88,16 @@
     - mastodon
     - mastodon.customize
     - mastodon.customize.css
+
+- name: Mastodon backup
+  include_tasks:
+    file: backup.yml
+    apply:
+      tags:
+        - mastodon
+        - mastodon.backup
+  tags:
+    - mastodon
+    - mastodon.backup
+    - mastodon.backup.database
+    - mastodon.backup.uploads

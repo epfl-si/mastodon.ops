@@ -1,0 +1,56 @@
+- name: Create backups folder for Mastodon
+  ansible.builtin.file:
+    path: "{{ item }}/"
+    state: directory
+  loop:
+    - "{{ mastodon_backups_dir }}/database"
+    - "{{ mastodon_backups_dir }}/files"
+  tags: 
+    - mastodon
+    - mastodon.setup
+    - mastodon.backup
+    - mastodon.backup.database
+    - mastodon.backup.uploads
+
+- name: Manage Mastodon database's backups
+  ansible.builtin.cron:
+    name: "{{ item.name }}"
+    minute: "{{ item.minute | default('0') }}"
+    hour: "{{ item.hour }}"
+    weekday: "{{ item.weekday }}"
+    job: "{{ item.job }}"
+    user: root
+  loop:
+    # Run pg_dump for mastodon database ({{ mastodon_backups_dir }}/database/)
+    - { name: 'pg_dump mastodon db every 4 hours',
+        hour: '4-20/4',
+        weekday: "*",
+        job: "export COMPOSE_INTERACTIVE_NO_CLI=1; \
+              docker exec {{ mastodon_postgresql_container_name }} \
+              pg_dump -Fc t -U postgres mastodon | gzip > \
+              {{ mastodon_backups_dir }}/database/$(date +\\%F_\\%H\\%M\\%S)_mastodon_db.tar.gz"
+      }
+    # Run pg_dumpall to {{ mastodon_backups_dir }}/database/
+    - { name: 'pg_dumpall at 4:02 am',
+        hour: '4',
+        minute: '2',
+        weekday: "*",
+        job: "export COMPOSE_INTERACTIVE_NO_CLI=1; \
+              docker exec {{ mastodon_postgresql_container_name }} \
+              pg_dumpall -c -U postgres > \
+              {{ mastodon_backups_dir }}/database/$(date +\\%F_\\%H\\%M\\%S)_pgdumpall.dump"
+      }
+  tags:
+    - mastodon.backup
+    - mastodon.backup.database
+
+- name: Manage Mastodon uploads's backups 
+  ansible.builtin.cron:
+    name: "backup Mastodon's uploads every 4 hours"
+    minute: "4"
+    hour: "*/4"
+    job: "tar -czf {{ mastodon_backups_dir }}/files/$(date +\\%F_\\%H\\%M\\%S)_mastodon_files.tar.gz --exclude='cache' /srv/mastodon/web/public/system/"
+    user: root
+  tags:
+    - mastodon.backup
+    - mastodon.backup.uploads
