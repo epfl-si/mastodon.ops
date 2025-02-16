@@ -1,7 +1,7 @@
 # atom: tabType=hard, tabLength=4, grammar=makefile
 # vim: set syntax=make ts=4 noexpandtab :
 
-# This Makefile is build with Ansible and operates as a convenient script for 
+# This Makefile is build with Ansible and operates as a convenient script for
 # the servers administrators of Mastodon@EPFL (<isas-fsd@groupes.epfl.ch>).
 # Please propose a PR on <https://github.com/epfl-si/mastodon.ops> to change it.
 
@@ -40,8 +40,8 @@ postgres:	## Enter {{ mastodon_postgresql_container_name }} container as postgre
 .PHONY: pgdump
 pgdump:	## Run pg_dump for mastodon database ({{ mastodon_postgresql_dir }}/data/BACKUPS/)
 	docker exec {{ mastodon_postgresql_container_name }} pg_dump -Fc -U postgres mastodon > {{ mastodon_postgresql_dir }}/data/BACKUPS/$$(date +%Y-%m-%d)_mastodon.dump
-	docker exec {{ mastodon_postgresql_container_name }} pg_dump -Fc t -U postgres mastodon | gzip > {{ mastodon_postgresql_dir }}/data/BACKUPS/$$(date +%Y-%m-%d)_mastodon.tar.gz
-	tar -tvf {{ mastodon_postgresql_dir }}/data/BACKUPS/$$(date +%Y-%m-%d)_mastodon.tar.gz
+	docker exec {{ mastodon_postgresql_container_name }} pg_dump -Fc -U postgres -d mastodon | gzip > {{ mastodon_postgresql_dir }}/data/BACKUPS/$$(date +%Y-%m-%d)_mastodon.tar.gz
+	tar -tvgf {{ mastodon_postgresql_dir }}/data/BACKUPS/$$(date +%Y-%m-%d)_mastodon.tar.gz
 	ls -alh {{ mastodon_postgresql_dir }}/data/BACKUPS/
 
 .PHONY: pgdumpall
