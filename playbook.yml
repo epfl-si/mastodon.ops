@@ -35,6 +35,7 @@
       - name: "{{ mastodon_docker_internal_network_name }}" # Metrics
     traefik_use_acme_prod_ca: true
     traefik_external_http_port: 80
+    traefik_debug: false
   tasks:
     - epfl_si.traefik.dynamic_config:
         name: mastodon
@@ -45,6 +46,7 @@
                 loadBalancer:
                   servers:
                   - url: http://{{ mastodon_web_container_name }}:3000
+
             routers:
               mastodon:
                 rule: Host(`{{ inventory_hostname }}`)
@@ -52,8 +54,39 @@
                 tls:
                   certResolver: letsencrypt
                 middlewares: {{ "[ 'test-auth' ]" if (enable_basic_auth is defined and enable_basic_auth) else '[]' }}
+
             middlewares:
               test-auth:
+                basicAuth:
+                  users:
+                  - "{{ _secrets.epfl_account_basic_auth }}"
+
+    - epfl_si.traefik.dynamic_config:
+        name: prometheus
+        content: |
+          http:
+            services:
+              prometheus:
+                loadBalancer:
+                  servers:
+                  - url: http://prometheus:9090
+
+            routers:
+              # Serves prometheus on https://{{ inventory_hostname }}/prometheus/
+              prometheus:
+                rule: Host(`{{ inventory_hostname }}`) && (PathPrefix(`/prometheus/`) || Header(`Referer`, `https://{{ inventory_hostname }}/prometheus/graph`))
+                service: prometheus
+                tls: true
+                middlewares:
+                  - prometheus-strip-prefix
+                  - prometheus-ui-auth
+
+            middlewares:
+              prometheus-strip-prefix:
+                stripPrefix:
+                  prefixes:
+                  - "/prometheus"
+              prometheus-ui-auth:
                 basicAuth:
                   users:
                   - "{{ _secrets.epfl_account_basic_auth }}"

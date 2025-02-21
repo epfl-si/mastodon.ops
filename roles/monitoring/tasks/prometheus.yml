@@ -31,11 +31,14 @@
     networks:
       - name: "{{ mastodon_docker_internal_network_name }}"
     volumes:
-      - "{{ prometheus_dir }}/prometheus.yml:/etc/prometheus/prometheus.yml"
-      - "{{ prometheus_dir }}/data:/prometheus"
+      - "{{ prometheus_dir }}/prometheus.yml:/prometheus/prometheus.yml"
+      - "{{ prometheus_dir }}/data:/prometheus/data"
       - "{{ prometheus_dir }}/rules:/rules"
     ports:
       - 9090:9090
+    command:
+      - '--web.external-url=/prometheus'
+      - '--web.route-prefix=/'
     restart_policy: 'unless-stopped'
     restart: >-
       {{
