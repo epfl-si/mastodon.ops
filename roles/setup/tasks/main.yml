@@ -21,13 +21,16 @@
   ansible.builtin.apt:
     pkg:
       - apt-transport-https
+      - baobab
       - ca-certificates
       - catimg
       - curl
       - gnupg
+      - ncdu
       - software-properties-common
       - tree
       - unattended-upgrades
+      - xdiskusage
   tags:
     - setup
     - setup.docker
