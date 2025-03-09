@@ -1,4 +1,4 @@
-FROM ghcr.io/mastodon/mastodon:v4.3.3
+FROM ghcr.io/mastodon/mastodon:v4.3.4
 
 USER root
 RUN echo "gem 'prometheus_exporter'" >> Gemfile
