@@ -40,10 +40,9 @@
         name: rotate daily Mastodon database backups at 4:06 am
         minute: 6
         hour: 4
-        job: "mv $(ls -t {{ mastodon_backups_dir }}/database/$(date -d 'yesterday' '+\\%Y-\\%m-\\%d')_*_mastodon_db.tar.gz | head -1) \
-              $(date -d 'yesterday' +\\%A)_mastodon_db.tar.gz \
-              && \
-              rm -f {{ mastodon_backups_dir }}/database/$(date -d 'yesterday' '+\\%Y-\\%m-\\%d')_*_mastodon_db.tar.gz"
+        job: "mv $(ls -1t {{ mastodon_backups_dir }}/database/$(date -d 'yesterday' '+\\%Y-\\%m-\\%d')_*_mastodon_db.tar.gz | head -1) \
+              {{ mastodon_backups_dir }}/database/$(date -d 'yesterday' +\\%A)_mastodon_db.tar.gz \
+              && rm -f {{ mastodon_backups_dir }}/database/$(date -d 'yesterday' '+\\%Y-\\%m-\\%d')_*_mastodon_db.tar.gz"
   tags:
     - mastodon.backup
     - mastodon.backup.database
@@ -63,10 +62,9 @@
         name: rotate daily Mastodon uploads backups at 4:08 am
         minute: 8
         hour: 4
-        job: "mv $(ls -t {{ mastodon_backups_dir }}/files/$(date -d 'yesterday' '+\\%Y-\\%m-\\%d')_*_mastodon_files.tar.gz | head -1) \
-              $(date -d 'yesterday' +\\%A)_mastodon_files.tar.gz \
-              && \
-              rm -f {{ mastodon_backups_dir }}/files/$(date -d 'yesterday' '+\\%Y-\\%m-\\%d')_*_mastodon_files.tar.gz"
+        job: "mv $(ls -1t {{ mastodon_backups_dir }}/files/$(date -d 'yesterday' '+\\%Y-\\%m-\\%d')_*_mastodon_files.tar.gz | head -1) \
+              {{ mastodon_backups_dir }}/files/$(date -d 'yesterday' +\\%A)_mastodon_files.tar.gz \
+              && rm -f {{ mastodon_backups_dir }}/files/$(date -d 'yesterday' '+\\%Y-\\%m-\\%d')_*_mastodon_files.tar.gz"
   tags:
     - mastodon.backup
     - mastodon.backup.uploads
