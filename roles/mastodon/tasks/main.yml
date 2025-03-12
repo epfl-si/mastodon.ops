@@ -101,3 +101,14 @@
     - mastodon.backup
     - mastodon.backup.database
     - mastodon.backup.uploads
+
+- name: Mastodon maintenance's care
+  include_tasks:
+    file: maintenance.yml
+    apply:
+      tags:
+        - mastodon
+        - mastodon.maintenance
+  tags:
+    - mastodon
+    - mastodon.maintenance

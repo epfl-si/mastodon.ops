@@ -1,0 +1,13 @@
+
+- name: Manage Mastodon maintenance's care
+  block:
+    # https://docs.joinmastodon.org/admin/tootctl/#media-remove
+    - name: Cron to run cached media maintenance (docker exec -it mastodon-web tootctl media remove)
+      ansible.builtin.cron:
+        user: root
+        name: remove media attachments older than 7 days
+        minute: 3
+        hour: 3
+        job: "export COMPOSE_INTERACTIVE_NO_CLI=1; \
+              docker exec {{ mastodon_web_container_name }} \
+              tootctl media remove --days 7"
