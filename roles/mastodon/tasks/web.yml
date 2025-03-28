@@ -44,6 +44,7 @@
     ports:
       - "3000:3000"
     restart_policy: unless-stopped
+    image_name_mismatch: ignore
     networks:
       - name: "{{ mastodon_docker_external_network_name }}"
       - name: "{{ mastodon_docker_internal_network_name }}"
@@ -63,6 +64,7 @@
     ports:
       - "4000:4000"
     restart_policy: unless-stopped
+    image_name_mismatch: ignore
     networks:
       - name: "{{ mastodon_docker_external_network_name }}"
       - name: "{{ mastodon_docker_internal_network_name }}"
@@ -78,6 +80,7 @@
     name: "{{ mastodon_sidekiq_container_name }}"
     image: "{{ mastodon_web_image }}"
     restart_policy: unless-stopped
+    image_name_mismatch: ignore
     networks:
       - name: "{{ mastodon_docker_external_network_name }}"
       - name: "{{ mastodon_docker_internal_network_name }}"
