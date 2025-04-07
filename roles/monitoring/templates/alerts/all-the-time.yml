@@ -1,8 +1,8 @@
 {%raw%}
 groups:
-  - name: Alert all the time
+  - name: Alert all the time {%endraw%}"{{ inventory_hostname }}"{%raw%}
     rules:
-    - alert: Just another alert
+    - alert: Just another alert {%endraw%}"{{ inventory_hostname }}"{%raw%}
       expr: vector(1)
       for: 1m
       labels:
