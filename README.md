@@ -34,6 +34,22 @@ requests and offers the [Let's Encrypt] TLS certificate to users.
 [^1]: https://github.com/mastodon/mastodon/blob/main/docker-compose.yml
 
 
+## Usage
+
+```sh
+./mastodonsible
+```
+
+By default this will deploy on the test inventory. Use `--prod` to use the
+production inventory. If needed, you can use `--protect` to add a basic
+authentication middlewar in the Traefik setup.
+
+> [!NOTE]  
+> Due to the instrumentation of the Mastodon metrics inside the Mastodon
+> image, you will have to *push* an updated version of
+> [mastodon-web/Dockerfile](docker/mastodon-web/Dockerfile) with
+> the correct Mastodon version that will be cloned and built on the target.
+> Version has to be changed in [vars/versions.yml](vars/versions.yml) too.
 
 [EPFL]: https://www.epfl.ch
 [mastodon]: https://joinmastodon.org
