@@ -11,3 +11,57 @@
         job: "export COMPOSE_INTERACTIVE_NO_CLI=1; \
               docker exec {{ mastodon_web_container_name }} \
               tootctl media remove --days 7"
+    - name: Cron to run cached statuses maintenance (docker exec -it mastodon-web tootctl statuses remove)
+      ansible.builtin.cron:
+        user: root
+        name: remove statuses older than 7 days
+        minute: 7
+        hour: 3
+        job: "export COMPOSE_INTERACTIVE_NO_CLI=1; \
+              docker exec {{ mastodon_web_container_name }} \
+              tootctl statuses remove --days 7"
+    - name: Cron to run cached preview-cards maintenance (docker exec -it mastodon-web tootctl preview-cards remove)
+      ansible.builtin.cron:
+        user: root
+        name: remove preview-cards older than 7 days
+        minute: 11
+        hour: 3
+        job: "export COMPOSE_INTERACTIVE_NO_CLI=1; \
+              docker exec {{ mastodon_web_container_name }} \
+              tootctl preview-cards remove --days 7"
+    - name: Cron to remove orphans media (docker exec -it mastodon-web tootctl media remove-orphans)
+      ansible.builtin.cron:
+        user: root
+        name: remove orphans media
+        minute: 15
+        hour: 3
+        job: "export COMPOSE_INTERACTIVE_NO_CLI=1; \
+              docker exec {{ mastodon_web_container_name }} \
+              tootctl media remove-orphans"
+    - name: Cron to prune remote accounts that never interacted with... (docker exec -it mastodon-web tootctl accounts prune)
+      ansible.builtin.cron:
+        user: root
+        name: prune remote accounts
+        minute: 19
+        hour: 3
+        job: "export COMPOSE_INTERACTIVE_NO_CLI=1; \
+              docker exec {{ mastodon_web_container_name }} \
+              tootctl accounts prune"
+    - name: Cron to clear cache (docker exec -it mastodon-web tootctl cache clear)
+      ansible.builtin.cron:
+        user: root
+        name: cache clear
+        minute: 23
+        hour: 3
+        job: "export COMPOSE_INTERACTIVE_NO_CLI=1; \
+              docker exec {{ mastodon_web_container_name }} \
+              tootctl cache clear"
+    - name: Cron to remove avatars and headers not followed by anyone (docker exec -it mastodon-web tootctl media remove --prune-profiles)
+      ansible.builtin.cron:
+        user: root
+        name: media remove --prune-profiles
+        minute: 27
+        hour: 3
+        job: "export COMPOSE_INTERACTIVE_NO_CLI=1; \
+              docker exec {{ mastodon_web_container_name }} \
+              tootctl media remove --prune-profiles"
