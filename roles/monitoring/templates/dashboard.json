@@ -614,7 +614,7 @@
       },
       "gridPos": {
         "h": 11,
-        "w": 14,
+        "w": 24,
         "x": 0,
         "y": 4
       },
@@ -653,6 +653,7 @@
         "type": "prometheus",
         "uid": "eedstprx7hxq8c"
       },
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -687,7 +688,7 @@
               "mode": "none"
             },
             "thresholdsStyle": {
-              "mode": "line"
+              "mode": "off"
             }
           },
           "mappings": [],
@@ -708,12 +709,12 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 11,
-        "w": 10,
-        "x": 14,
-        "y": 4
+        "h": 13,
+        "w": 24,
+        "x": 0,
+        "y": 15
       },
-      "id": 2,
+      "id": 13,
       "options": {
         "legend": {
           "calcs": [],
@@ -733,15 +734,14 @@
             "uid": "eedstprx7hxq8c"
           },
           "editorMode": "code",
-          "expr": "100.0 - 100 * ((node_filesystem_avail_bytes{mountpoint=\"/\"} / 1000 / 1000 ) / (node_filesystem_size_bytes{mountpoint=\"/\"}  / 1024 / 1024))",
+          "expr": "100 - ((node_filesystem_avail_bytes{instance=\"mastodon-prod\", mountpoint=~\"/|/srv/(.*)\"} * 100) / node_filesystem_size_bytes{instance=\"mastodon-prod\", mountpoint=~\"/|/srv/(.*)\"})",
           "instant": false,
-          "interval": "",
-          "legendFormat": "Disc usage of {{mountpoint}}",
+          "legendFormat": "{{mountpoint}}",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Disc usage",
+      "title": "Disk monitoring",
       "type": "timeseries"
     },
     {
@@ -771,7 +771,7 @@
         "h": 5,
         "w": 3,
         "x": 0,
-        "y": 15
+        "y": 28
       },
       "id": 10,
       "options": {
@@ -823,7 +823,7 @@
       "type": "stat"
     }
   ],
-  "refresh": "5m",
+  "refresh": "1m",
   "schemaVersion": 39,
   "tags": [
     "Mastodon"
@@ -833,7 +833,7 @@
   },
   "time": {
     "from": "now-6h",
-    "to": "now"
+    "to": "now-1m"
   },
   "timepicker": {
     "nowDelay": "1m",
