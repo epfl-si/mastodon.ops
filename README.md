@@ -51,6 +51,37 @@ authentication middlewar in the Traefik setup.
 > the correct Mastodon version that will be cloned and built on the target.
 > Version has to be changed in [vars/versions.yml](vars/versions.yml) too.
 
+
+## Files organisation
+
+The configuration as code will deploy everything in `/srv`:
+  - `/srv/backups`
+  - `/srv/mastodon`
+  - `/srv/prometheus`
+  - `/srv/traefik`
+
+While folders name are self-explainatory, the storage is not always the VM's
+disk. We have 2 (ceph) volumes mounted in the VM. They are using LVM. One is for
+the backups, the other one for the data that may grow with time (mastodon upload
+and cache, prometheus data).
+
+```sh
+root@mastodon:~# lsblk
+
+vda                           100G disk
+└─vda1                        100G part /
+vdb                            50G disk
+└─vdb1                         50G part
+  └─mastodon--backup-backup    40G lvm  /srv/backups
+vdc                           400G disk
+└─vdc1                        400G part
+  ├─mastodon--data-web         25G lvm  /srv/mastodon/web
+  ├─mastodon--data-cache      100G lvm  /srv/mastodon/web/public/system/cache
+  └─mastodon--data-prometheus  15G lvm  /srv/prometheus/data
+```
+
+
+
 [EPFL]: https://www.epfl.ch
 [mastodon]: https://joinmastodon.org
 [activitypub]: https://activitypub.rocks/
