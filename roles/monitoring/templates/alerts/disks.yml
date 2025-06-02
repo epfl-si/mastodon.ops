@@ -1,13 +1,54 @@
-{%raw%}
 groups:
-  - name: Backup date > 7 days
+  - name: Disks monitoring
     rules:
-    - alert: Disk > x%
-      expr: (100 - ((node_filesystem_avail_bytes{mountpoint="/",fstype!="rootfs"} * 100) / node_filesystem_size_bytes{mountpoint="/",fstype!="rootfs"})) >= 23.5
+    - alert: "{{ inventory_hostname }} main disk is nearly full"
+      expr: {% raw -%}
+      'floor(node_filesystem_free_bytes{mountpoint="/"} / 1048576) < 5 * 1024'
+{% endraw %}
       for: 15m
       labels:
-        owner: nborboen
+        owner: mastodon-admin
       annotations:
-        summary: '{{ $labels.url }} have not been backuped since more than 3 days!'
-        description: '{{ $labels.url }} of job {{ $labels.job }} has restic_success == {{ $value }}seconds (on env: {{$labels.wp_env}}).'
-{%endraw%}
+        summary: "{{ inventory_hostname }} main disk is nearly full"
+        description: {% raw -%}
+        'The {{ $labels.fstype }} partition {{ $labels.device }} ({{ $labels.mountpoint }}) has only {{ value }} megabytes remaining.'
+{% endraw %}
+
+    - alert: "{{ inventory_hostname }} backups disk is nearly full"
+      expr: {% raw -%}
+      'floor(node_filesystem_free_bytes{mountpoint="/srv/backups"} / 1048576) < 5 * 1024'
+{% endraw %}
+      for: 15m
+      labels:
+        owner: mastodon-admin
+      annotations:
+        summary: "{{ inventory_hostname }} backups disk is nearly full"
+        description: {% raw -%}
+        'The {{ $labels.fstype }} partition {{ $labels.device }} ({{ $labels.mountpoint }}) has only {{ value }} megabytes remaining.'
+{% endraw %}
+
+    - alert: "{{ inventory_hostname }} user's uploads disk is nearly full"
+      expr: {% raw -%}
+      'floor(node_filesystem_free_bytes{mountpoint="/srv/mastodon/web"} / 1048576) < 5 * 1024'
+{% endraw %}
+      for: 15m
+      labels:
+        owner: mastodon-admin
+      annotations:
+        summary: "{{ inventory_hostname }} user's uploads disk is nearly full"
+        description: {% raw -%}
+        'The {{ $labels.fstype }} partition {{ $labels.device }} ({{ $labels.mountpoint }}) has only {{ value }} megabytes remaining.'
+{% endraw %}
+
+    - alert: "{{ inventory_hostname }} disk with cache is nearly full"
+      expr: {% raw -%}
+      'floor(node_filesystem_free_bytes{mountpoint="/srv/mastodon/web/public/system/cache"} / 1048576) < 5 * 1024'
+{% endraw %}
+      for: 15m
+      labels:
+        owner: mastodon-admin
+      annotations:
+        summary: "{{ inventory_hostname }} disk with cache is nearly full"
+        description: {% raw -%}
+        'The {{ $labels.fstype }} partition {{ $labels.device }} ({{ $labels.mountpoint }}) has only {{ value }} megabytes remaining.'
+{% endraw %}
