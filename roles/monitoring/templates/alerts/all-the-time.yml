@@ -1,13 +1,13 @@
-{%raw%}
-groups:
-  - name: Alert all the time {%endraw%}"{{ inventory_hostname }}"{%raw%}
-    rules:
-    - alert: Just another alert {%endraw%}"{{ inventory_hostname }}"{%raw%}
-      expr: vector(1)
-      for: 1m
-      labels:
-        owner: nborboen
-      annotations:
-        summary: 'Test please ignore'
-        description: 'This is an alert that fires all the time.'
-{%endraw%}
+# {%raw%}
+# groups:
+#   - name: Alert all the time {%endraw%}"{{ inventory_hostname }}"{%raw%}
+#     rules:
+#     - alert: Just another alert {%endraw%}"{{ inventory_hostname }}"{%raw%}
+#       expr: vector(1)
+#       for: 1m
+#       labels:
+#         owner: nborboen
+#       annotations:
+#         summary: 'Test please ignore'
+#         description: 'This is an alert that fires all the time.'
+# {%endraw%}

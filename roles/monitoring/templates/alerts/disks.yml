@@ -11,7 +11,7 @@ groups:
       annotations:
         summary: "{{ inventory_hostname }} main disk is nearly full"
         description: {% raw -%}
-        'The {{ $labels.fstype }} partition {{ $labels.device }} ({{ $labels.mountpoint }}) has only {{ value }} megabytes remaining.'
+        "The {{ $labels.fstype }} partition {{ $labels.device }} ({{ $labels.mountpoint }}) has only {{ $value }} megabytes remaining."
 {% endraw %}
 
     - alert: "{{ inventory_hostname }} backups disk is nearly full"
@@ -24,7 +24,7 @@ groups:
       annotations:
         summary: "{{ inventory_hostname }} backups disk is nearly full"
         description: {% raw -%}
-        'The {{ $labels.fstype }} partition {{ $labels.device }} ({{ $labels.mountpoint }}) has only {{ value }} megabytes remaining.'
+        "The {{ $labels.fstype }} partition {{ $labels.device }} ({{ $labels.mountpoint }}) has only {{ $value }} megabytes remaining."
 {% endraw %}
 
     - alert: "{{ inventory_hostname }} user's uploads disk is nearly full"
@@ -37,7 +37,7 @@ groups:
       annotations:
         summary: "{{ inventory_hostname }} user's uploads disk is nearly full"
         description: {% raw -%}
-        'The {{ $labels.fstype }} partition {{ $labels.device }} ({{ $labels.mountpoint }}) has only {{ value }} megabytes remaining.'
+        "The {{ $labels.fstype }} partition {{ $labels.device }} ({{ $labels.mountpoint }}) has only {{ $value }} megabytes remaining."
 {% endraw %}
 
     - alert: "{{ inventory_hostname }} disk with cache is nearly full"
@@ -50,5 +50,5 @@ groups:
       annotations:
         summary: "{{ inventory_hostname }} disk with cache is nearly full"
         description: {% raw -%}
-        'The {{ $labels.fstype }} partition {{ $labels.device }} ({{ $labels.mountpoint }}) has only {{ value }} megabytes remaining.'
+        "The {{ $labels.fstype }} partition {{ $labels.device }} ({{ $labels.mountpoint }}) has only {{ $value }} megabytes remaining."
 {% endraw %}
