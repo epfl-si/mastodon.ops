@@ -11,6 +11,8 @@
     command: >-
       --config.file=/config/config.yml
       --log.level={{ 'error' | default('error') }}
+      --web.external-url=https://{{ inventory_hostname }}/alertmanager/
+      --web.route-prefix=/
     networks:
       - name: "{{ mastodon_docker_internal_network_name }}"
     volumes:
