@@ -39,6 +39,7 @@
     command:
       - '--web.external-url=/prometheus'
       - '--web.route-prefix=/'
+      - '--storage.tsdb.retention.time=60d' # https://prometheus.io/docs/prometheus/latest/storage/#operational-aspects
     restart_policy: 'unless-stopped'
     restart: >-
       {{
