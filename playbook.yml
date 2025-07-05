@@ -53,10 +53,10 @@
                 service: mastodon
                 tls:
                   certResolver: letsencrypt
-                middlewares: {{ "[ 'test-auth' ]" if (enable_basic_auth is defined and enable_basic_auth) else '[]' }}
+                middlewares: {{ "[ 'auth-for-test' ]" if (enable_basic_auth is defined and enable_basic_auth) else '[]' }}
 
             middlewares:
-              test-auth:
+              auth-for-test:
                 basicAuth:
                   users:
                   - "{{ _secrets.epfl_account_basic_auth }}"
@@ -70,6 +70,10 @@
                 loadBalancer:
                   servers:
                   - url: http://prometheus:9090
+              alertmanager:
+                loadBalancer:
+                  servers:
+                  - url: http://alertmanager:9093
 
             routers:
               # Serves prometheus on https://{{ inventory_hostname }}/prometheus/
@@ -79,14 +83,27 @@
                 tls: true
                 middlewares:
                   - prometheus-strip-prefix
-                  - prometheus-ui-auth
+                  - basic-auth
+
+              # Serves alertmanager on https://{{ inventory_hostname }}/alertmanager/
+              alertmanager:
+                rule: Host(`{{ inventory_hostname }}`) && (PathPrefix(`/alertmanager/`) || Header(`Referer`, `https://{{ inventory_hostname }}/alertmanager/`))
+                service: alertmanager
+                tls: true
+                middlewares:
+                  - alertmanager-strip-prefix
+                  - basic-auth
 
             middlewares:
               prometheus-strip-prefix:
                 stripPrefix:
                   prefixes:
                   - "/prometheus"
-              prometheus-ui-auth:
+              alertmanager-strip-prefix:
+                stripPrefix:
+                  prefixes:
+                  - "/alertmanager"
+              basic-auth:
                 basicAuth:
                   users:
                   - "{{ _secrets.epfl_account_basic_auth }}"
