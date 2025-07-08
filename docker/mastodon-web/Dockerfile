@@ -1,9 +1,7 @@
 FROM ghcr.io/mastodon/mastodon:v4.4.0
 
 USER root
-RUN echo "gem 'prometheus_exporter'" >> Gemfile
 RUN bundle config unset frozen && bundle install
-
 
 COPY config/initializers/*.rb config/initializers/
 COPY monitoring/ monitoring/
