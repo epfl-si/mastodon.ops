@@ -134,5 +134,10 @@ mastodon_env:
   # Assume emails are verified by the OIDC server
   OIDC_SECURITY_ASSUME_EMAIL_IS_VERIFIED: "true"
 
-  # `discourse/prometheus_exporter` gem
-  PROMETHEUS_EXPORTER_HOST: mastodon-monitoring
+  # https://docs.joinmastodon.org/admin/config/#prometheus
+  MASTODON_PROMETHEUS_EXPORTER_ENABLED: "true"
+  MASTODON_PROMETHEUS_EXPORTER_WEB_DETAILED_METRICS: "true"
+  MASTODON_PROMETHEUS_EXPORTER_SIDEKIQ_DETAILED_METRICS: "true"
+  MASTODON_PROMETHEUS_EXPORTER_LOCAL: "true"
+  MASTODON_PROMETHEUS_EXPORTER_HOST: "true"
+  MASTODON_PROMETHEUS_EXPORTER_PORT: "true"
