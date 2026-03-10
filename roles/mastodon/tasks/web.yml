@@ -29,13 +29,13 @@
     version: main
   register: _web_build_dir
 
-- name: Build Mastodon web image
-  community.docker.docker_image:
-    name: "{{ mastodon_web_image }}"
-    source: build
-    force_source: yes
-    build:
-      path: '{{ mastodon_web_build_dir }}/docker/mastodon-web'
+#- name: Build Mastodon web image
+#  community.docker.docker_image:
+#    name: "{{ mastodon_web_image }}"
+#    source: build
+#    force_source: yes
+#    build:
+#      path: '{{ mastodon_web_build_dir }}/docker/mastodon-web'
 
 - name: Mastodon web container
   community.docker.docker_container:
