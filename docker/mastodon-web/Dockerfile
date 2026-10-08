@@ -1,4 +1,4 @@
-FROM ghcr.io/mastodon/mastodon:v4.6.9
+FROM ghcr.io/mastodon/mastodon:v4.7.3
 
 USER root
 RUN bundle config unset frozen && bundle install

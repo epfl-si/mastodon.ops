@@ -3,6 +3,6 @@ traefik_docker_image: "traefik:v3.7"
 mastodon_postgresql_image: postgres:14-alpine
 
 # New
-mastodon_version: v4.6.9
+mastodon_version: v4.7.3
 mastodon_web_image: "ghcr.io/mastodon/mastodon:{{ mastodon_version }}"
 mastodon_web_streaming_image: "ghcr.io/mastodon/mastodon-streaming:{{ mastodon_version }}"
