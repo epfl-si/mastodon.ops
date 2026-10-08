@@ -41,7 +41,7 @@ postgres:	## Enter {{ mastodon_postgresql_container_name }} container as postgre
 pgdump:	## Run pg_dump for mastodon database ({{ mastodon_postgresql_dir }}/data/BACKUPS/)
 	docker exec {{ mastodon_postgresql_container_name }} pg_dump -Fc -U postgres mastodon > {{ mastodon_postgresql_dir }}/data/BACKUPS/$$(date +%Y-%m-%d)_mastodon.dump
 	docker exec {{ mastodon_postgresql_container_name }} pg_dump -Fc -U postgres -d mastodon | gzip > {{ mastodon_postgresql_dir }}/data/BACKUPS/$$(date +%Y-%m-%d)_mastodon.tar.gz
-	tar -tvgf {{ mastodon_postgresql_dir }}/data/BACKUPS/$$(date +%Y-%m-%d)_mastodon.tar.gz
+	tar -czf {{ mastodon_postgresql_dir }}/data/BACKUPS/$$(date +%Y-%m-%d)_mastodon.tar.gz
 	ls -alh {{ mastodon_postgresql_dir }}/data/BACKUPS/
 
 .PHONY: pgdumpall
