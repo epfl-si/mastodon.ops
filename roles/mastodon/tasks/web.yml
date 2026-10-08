@@ -1,7 +1,7 @@
 - name: Mastodon web directories
   ansible.builtin.file:
     state: directory
-    recurse: yes
+    # recurse: yes
     path: "{{ item }}"
     mode: 0755
   with_items:
