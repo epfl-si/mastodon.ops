@@ -45,12 +45,28 @@ scrape_configs:
         target_label: instance
         replacement: "mastodon-{{ inventory_mode }}"
 
-  - job_name: mastodon
+  # - job_name: "mastodon"
+  #   static_configs:
+  #     - targets: ['mastodon-web:3000']
+  #   relabel_configs:
+  #     - source_labels: [__address__]
+  #       target_label: instance
+  #       replacement: "mastodon-{{ inventory_mode }}"
+
+  - job_name: "streaming"
     static_configs:
-    - targets:
-      - mastodon-monitoring:9394
+      - targets: ['mastodon-streaming:4000']
     relabel_configs:
       - source_labels: [__address__]
         target_label: instance
         replacement: "mastodon-{{ inventory_mode }}"
-        action: replace
+
+  # - job_name: mastodon
+  #   static_configs:
+  #   - targets:
+  #     - mastodon-monitoring:9394
+  #   relabel_configs:
+  #     - source_labels: [__address__]
+  #       target_label: instance
+  #       replacement: "mastodon-{{ inventory_mode }}"
+  #       action: replace

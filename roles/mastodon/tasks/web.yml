@@ -22,12 +22,12 @@
     path: "{{ mastodon_web_build_dir | dirname }}"
     recurse: yes
 
-- name: Clone mastodon.ops to build Docker images out of it
-  git:
-    repo: https://github.com/epfl-si/mastodon.ops.git
-    dest: '{{ mastodon_web_build_dir }}'
-    version: main
-  register: _web_build_dir
+# - name: Clone mastodon.ops to build Docker images out of it
+#   git:
+#     repo: https://github.com/epfl-si/mastodon.ops.git
+#     dest: '{{ mastodon_web_build_dir }}'
+#     version: main
+#   register: _web_build_dir
 
 #- name: Build Mastodon web image
 #  community.docker.docker_image:

@@ -134,12 +134,10 @@ mastodon_env:
   # Assume emails are verified by the OIDC server
   OIDC_SECURITY_ASSUME_EMAIL_IS_VERIFIED: "true"
 
-  # https://docs.joinmastodon.org/admin/config/#prometheus
-  #PROMETHEUS_EXPORTER_HOST: mastodon-monitoring
-  MASTODON_PROMETHEUS_EXPORTER_ENABLED: "false"
-#  MASTODON_PROMETHEUS_EXPORTER_ENABLED: "true"
-#  MASTODON_PROMETHEUS_EXPORTER_WEB_DETAILED_METRICS: "true"
-#  MASTODON_PROMETHEUS_EXPORTER_SIDEKIQ_DETAILED_METRICS: "true"
-#  MASTODON_PROMETHEUS_EXPORTER_LOCAL: "true"
-#  MASTODON_PROMETHEUS_EXPORTER_HOST: "true"
-#  MASTODON_PROMETHEUS_EXPORTER_PORT: "true"
+  # Prometheus
+  MASTODON_PROMETHEUS_EXPORTER_LOCAL: "false" # If set to true, an in-process server will be started to expose the metrics.
+  MASTODON_PROMETHEUS_EXPORTER_ENABLED: "true" # If set to true, Mastodon’s Ruby processes (web & Sidekiq) will enable the Prometheus instrumentation.
+  PROMETHEUS_EXPORTER_HOST: "prometheus" # If the in-process server is not enabled, the metrics will be sent to this host (which should be running a prometheus_exporter server). Defaults to localhost.
+
+  MASTODON_PROMETHEUS_EXPORTER_WEB_DETAILED_METRICS: "true"
+  MASTODON_PROMETHEUS_EXPORTER_SIDEKIQ_DETAILED_METRICS: "true"
