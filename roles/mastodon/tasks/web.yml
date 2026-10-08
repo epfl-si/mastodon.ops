@@ -88,7 +88,7 @@
       - "{{ mastodon_web_dir }}/public/system:/mastodon/public/system"
     env: "{{ mastodon_env }}"
     healthcheck:
-      test: ['CMD-SHELL', "ps aux | grep '[s]idekiq\ 6' || false"]
+      test: ['CMD-SHELL', "ps aux | grep '[s]idekiq\ 8'"]
     command: 'bundle exec sidekiq'
   tags:
     - mastodon.sidekiq.run
