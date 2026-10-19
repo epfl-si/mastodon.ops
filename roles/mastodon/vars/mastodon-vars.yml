@@ -28,7 +28,7 @@ mastodon_web_dir: "{{ mastodon_dir }}/web"
 mastodon_web_container_name: mastodon-web
 mastodon_streaming_container_name: mastodon-streaming
 mastodon_sidekiq_container_name: mastodon-sidekiq
-#mastodon_monitoring_container_name: mastodon-monitoring
+mastodon_monitoring_container_name: mastodon-prometheus-exporter
 
 mastodon_env:
   # Federation
@@ -137,7 +137,7 @@ mastodon_env:
   # Prometheus
   MASTODON_PROMETHEUS_EXPORTER_LOCAL: "false" # If set to true, an in-process server will be started to expose the metrics.
   MASTODON_PROMETHEUS_EXPORTER_ENABLED: "true" # If set to true, Mastodon’s Ruby processes (web & Sidekiq) will enable the Prometheus instrumentation.
-  PROMETHEUS_EXPORTER_HOST: "prometheus" # If the in-process server is not enabled, the metrics will be sent to this host (which should be running a prometheus_exporter server). Defaults to localhost.
+  PROMETHEUS_EXPORTER_HOST: "mastodon-prometheus-exporter" # If the in-process server is not enabled, the metrics will be sent to this host (which should be running a prometheus_exporter server). Defaults to localhost.
 
   MASTODON_PROMETHEUS_EXPORTER_WEB_DETAILED_METRICS: "true"
   MASTODON_PROMETHEUS_EXPORTER_SIDEKIQ_DETAILED_METRICS: "true"
