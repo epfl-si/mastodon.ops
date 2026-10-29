@@ -4,6 +4,16 @@ This list announcements done by [@epfladmin] on https://social.epfl.ch.
 
 #EPFL #MastodonUpdate #BOFH
 
+
+### Oct 29
+
+📢 The Mastodon instance of :logo_epfl: has been successfully upgraded to the version v4.7.4 (https://github.com/mastodon/mastodon/releases/tag/v4.7.4) under CHG0048583.
+
+#EPFL #MastodonUpdate #BOFH
+
+→ https://social.epfl.ch/@epfladmin/117526664237970707
+
+
 ### Oct 8
 
 📢 The Mastodon instance of :logo_epfl: has been successfully upgraded to the latest version (v4.7.3). This update brings new features, such as collections, quotes or the new profile editing experience along with performance and security improvements.
@@ -16,7 +26,7 @@ Please read https://blog.joinmastodon.org/2026/06/mastodon-4.6/ and https://blog
 
 ### Jun 6
 
-📢 The Mastodon instance of :logo_epfl: has been successfully upgraded to the latest version (v4.3.9). While waiting for the 4.4 release (https://blog.joinmastodon.org/2025/07/mastodon-4-4-for-devs/) from https://mastodon.social/@MastodonEngineering, we have reached 630 users 🎉 
+📢 The Mastodon instance of :logo_epfl: has been successfully upgraded to the latest version (v4.3.9). While waiting for the 4.4 release (https://blog.joinmastodon.org/2025/07/mastodon-4-4-for-devs/) from https://mastodon.social/@MastodonEngineering, we have reached 630 users 🎉
 
 Have a nice weekend!
 
